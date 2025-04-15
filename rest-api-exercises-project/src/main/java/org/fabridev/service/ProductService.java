@@ -1,6 +1,7 @@
 package org.fabridev.service;
 
 import org.fabridev.exception.ProductNotFoundException;
+import org.fabridev.exception.ProductNullFieldFoundException;
 import org.fabridev.model.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,5 +25,52 @@ public class ProductService {
         return productList.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst();
+    }
+
+    public Product save(Product product){
+
+        productList.add(product);
+        System.out.println( "Has guardado correctamente a " + product.getName());
+        return product;
+    }
+
+    public Product updateProduct(Integer id, Product productUpdated){
+
+        Product product = findProductById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+
+        if(productUpdated.getName() != null && productUpdated.getPrice() != null){
+
+            product.setName(productUpdated.getName());
+            product.setPrice(productUpdated.getPrice());
+
+        }else{
+
+            throw new ProductNullFieldFoundException();
+
+        }
+
+        return product;
+
+    }
+
+//    public Product partialUpdateProduct(Integer id, Product productPartialUpdate){
+//
+//        Product product = findProductById(id)
+//                .orElseThrow(() -> new ProductNotFoundException(id));
+//        if(productPartialUpdate.getName() != null){
+//            product.setName(productPartialUpdate.getName());
+//        }
+//        if (productPartialUpdate.getPrice() != null){
+//            product.setPrice(productPartialUpdate.getPrice());
+//        }
+//
+//        return product;
+//    }
+
+    public void deleteProduct(Integer id){
+        Product product = findProductById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+        productList.remove(product);
     }
 }

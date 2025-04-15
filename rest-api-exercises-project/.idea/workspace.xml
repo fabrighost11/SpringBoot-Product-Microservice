@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/fabridev/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/fabridev/controller/ProductController.java" afterDir="false" />
-    </list>
+    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Project API-REST exercise 2 uploaded" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feature/hu01" />
+        <entry key="$PROJECT_DIR$/.." value="feature/hu02" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -52,7 +46,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/hu02",
+    "git-widget-placeholder": "feature/hu03",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/rest-api-exercises/rest-api-exercises-project"
   }
@@ -66,6 +60,19 @@
       <option name="presentableId" value="Default" />
       <updated>1744715033996</updated>
     </task>
+    <task id="LOCAL-00001" summary="Project API-REST exercise 2 uploaded">
+      <option name="closed" value="true" />
+      <created>1744716613228</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1744716613228</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Project API-REST exercise 2 uploaded" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project API-REST exercise 2 uploaded" />
   </component>
 </project>
