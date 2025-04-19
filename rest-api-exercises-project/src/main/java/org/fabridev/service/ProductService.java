@@ -1,14 +1,13 @@
 package org.fabridev.service;
 
+import org.fabridev.exception.ProductAlreadyExistsException;
 import org.fabridev.exception.ProductNotFoundException;
-import org.fabridev.exception.ProductNullFieldFoundException;
+import org.fabridev.exception.InvalidProductException;
 import org.fabridev.model.Product;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -21,56 +20,62 @@ public class ProductService {
         productList.add(new Product(3,"Telefono móvil",135.99));
     }
 
-    public Optional<Product> findProductById(Integer id) {
+    public Product findProductById(Integer id) throws ProductNotFoundException{
         return productList.stream()
                 .filter(p -> p.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException());
     }
 
-    public Product save(Product product){
+    public Product save(Product product) throws InvalidProductException, ProductAlreadyExistsException {
 
-        productList.add(product);
-        System.out.println( "Has guardado correctamente a " + product.getName());
-        return product;
-    }
+        checkProductIsValid(product);
 
-    public Product updateProduct(Integer id, Product productUpdated){
-
-        Product product = findProductById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
-
-        if(productUpdated.getName() != null && productUpdated.getPrice() != null){
-
-            product.setName(productUpdated.getName());
-            product.setPrice(productUpdated.getPrice());
-
-        }else{
-
-            throw new ProductNullFieldFoundException();
-
+        if(productExists(product.getId())){
+            throw  new ProductAlreadyExistsException("Product already exists.");
         }
 
+        productList.add(product);
         return product;
 
     }
 
-//    public Product partialUpdateProduct(Integer id, Product productPartialUpdate){
+    public Product updateProduct(Integer id, Product newProduct) throws ProductNotFoundException, InvalidProductException{
+
+        Product originalProduct = findProductById(id);
+
+        checkProductIsValid(newProduct);
+        originalProduct.setName(newProduct.getName());
+        originalProduct.setPrice(newProduct.getPrice());
+
+        return originalProduct;
+
+    }
 //
-//        Product product = findProductById(id)
-//                .orElseThrow(() -> new ProductNotFoundException(id));
-//        if(productPartialUpdate.getName() != null){
-//            product.setName(productPartialUpdate.getName());
-//        }
-//        if (productPartialUpdate.getPrice() != null){
-//            product.setPrice(productPartialUpdate.getPrice());
-//        }
+//    public void deleteProduct(Integer id) throws Exception{
 //
-//        return product;
+//        Product product = findProductById(id);
+//        productList.remove(product);
+//
 //    }
 
-    public void deleteProduct(Integer id){
-        Product product = findProductById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
-        productList.remove(product);
+    private void checkProductIsValid(Product product){
+        if (product.getName() == null || product.getName().trim().isEmpty()){
+            throw new InvalidProductException("Name of the product cant be empty.");
+        }
+        if(product.getPrice() == null || product.getPrice() <= 0){
+            throw new InvalidProductException("Price of the product must be higher than 0.");
+        }
     }
+
+    private boolean productExists(Integer id){
+
+        if(id == null){
+            return false;
+        }
+
+        return productList.stream()
+                .anyMatch(p -> id.equals(p.getId()));
+    }
+
 }

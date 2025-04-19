@@ -1,6 +1,8 @@
 package org.fabridev.model;
 
 
+import org.fabridev.exception.InvalidProductException;
+
 import java.util.Objects;
 
 public class Product {
@@ -43,6 +45,7 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
+
 
     @Override
     public String toString(){

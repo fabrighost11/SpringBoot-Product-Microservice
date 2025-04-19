@@ -1,7 +1,7 @@
 package org.fabridev.exception;
 
-public class ProductNotFoundException extends RuntimeException{
-    public ProductNotFoundException(Integer id){
-        super("Product with ID: " + id + " not found.");
+public class ProductNotFoundException extends Exception{
+    public ProductNotFoundException(){
+        super("Product with this ID not found.");
     }
 }

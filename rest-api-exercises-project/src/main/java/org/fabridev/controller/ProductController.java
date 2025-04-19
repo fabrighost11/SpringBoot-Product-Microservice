@@ -1,38 +1,35 @@
 package org.fabridev.controller;
 
+import org.fabridev.exception.ProductAlreadyExistsException;
 import org.fabridev.exception.ProductNotFoundException;
+import org.fabridev.exception.InvalidProductException;
 import org.fabridev.model.Product;
 import org.fabridev.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api-rest/product")
 public class ProductController {
 
+    @Autowired
     private ProductService service;
 
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
-
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Integer id){
-         return service.findProductById(id)
-                 .orElseThrow(() -> new ProductNotFoundException(id));
+    public ResponseEntity<Product> getProductById(@PathVariable Integer id) throws ProductNotFoundException{
+         return new ResponseEntity<>(service.findProductById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public Product addProductById(@RequestBody Product product){
-        return service.save(product);
+    public ResponseEntity<Product> addProductById(@RequestBody Product product) throws InvalidProductException, ProductAlreadyExistsException {
+        return new ResponseEntity<>(service.save(product), HttpStatus.CREATED);
     }
-
+//
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Integer id, @RequestBody Product product){
-        return service.updateProduct(id,product);
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) throws ProductNotFoundException, InvalidProductException{
+        return new ResponseEntity<>(service.updateProduct(id,product), HttpStatus.OK);
 
     }
 
@@ -41,9 +38,9 @@ public class ProductController {
 //        return service.partialUpdateProduct(id,product);
 //    }
 
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Integer id){
-        service.deleteProduct(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void deleteProduct(@PathVariable Integer id){
+//        service.deleteProduct(id);
+//    }
 
 }
