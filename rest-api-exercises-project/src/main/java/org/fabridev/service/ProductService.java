@@ -14,10 +14,17 @@ public class ProductService {
 
     private final List<Product> productList = new ArrayList<>();
 
+    private int incrementId;
+
     public ProductService() {
         productList.add(new Product(1,"Lavarropas",250.99));
         productList.add(new Product(2,"Televisor",480.75));
         productList.add(new Product(3,"Telefono móvil",135.99));
+
+        this.incrementId = productList.stream()
+                .mapToInt(Product::getId)
+                .max()
+                .orElse(0) +1;
     }
 
     public Product findProductById(Integer id) throws ProductNotFoundException{
@@ -33,6 +40,10 @@ public class ProductService {
 
         if(productExists(product.getId())){
             throw  new ProductAlreadyExistsException("Product already exists.");
+        }
+
+        if(product.getId() == null){
+            product.setId(incrementId++);
         }
 
         productList.add(product);
@@ -51,13 +62,13 @@ public class ProductService {
         return originalProduct;
 
     }
-//
-//    public void deleteProduct(Integer id) throws Exception{
-//
-//        Product product = findProductById(id);
-//        productList.remove(product);
-//
-//    }
+
+    public void deleteProduct(Integer id) throws ProductNotFoundException, InvalidProductException{
+
+        Product product = findProductById(id);
+        productList.remove(product);
+
+    }
 
     private void checkProductIsValid(Product product){
         if (product.getName() == null || product.getName().trim().isEmpty()){
@@ -68,7 +79,7 @@ public class ProductService {
         }
     }
 
-    private boolean productExists(Integer id){
+    public boolean productExists(Integer id){
 
         if(id == null){
             return false;

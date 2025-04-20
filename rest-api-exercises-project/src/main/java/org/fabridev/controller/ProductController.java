@@ -33,14 +33,10 @@ public class ProductController {
 
     }
 
-//    @PatchMapping("/{id}")
-//    public Product partialUpdate(@PathVariable Integer id, @RequestBody Product product){
-//        return service.partialUpdateProduct(id,product);
-//    }
-
-//    @DeleteMapping("/{id}")
-//    public void deleteProduct(@PathVariable Integer id){
-//        service.deleteProduct(id);
-//    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable Integer id) throws ProductNotFoundException, InvalidProductException {
+        service.deleteProduct(id);
+    }
 
 }
