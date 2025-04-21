@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -32,6 +33,10 @@ public class ProductService {
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException());
+    }
+
+    public List<Product> findAll(){
+        return productList;
     }
 
     public Product save(Product product) throws InvalidProductException, ProductAlreadyExistsException {

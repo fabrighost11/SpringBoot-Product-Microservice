@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ProductServiceTest {
 
     private ProductService service;
+
+    private Product product;
 
     @BeforeEach
     void setUp() {
@@ -53,6 +57,19 @@ public class ProductServiceTest {
 
         //then
         Assertions.assertEquals(expected,actualException.getMessage());
+    }
+
+    @Test
+    void findAll_findAllProductsInTheList_returnProductList(){
+        //given
+        List<Product> expected = fillProducts();
+
+        //when
+        List<Product> actual = service.findAll();
+
+        //then
+        Assertions.assertEquals(expected,actual);
+
     }
 
     @Test
@@ -203,5 +220,13 @@ public class ProductServiceTest {
         //then
         Assertions.assertThrows(ProductNotFoundException.class, () -> service.findProductById(idProduct));
 
+    }
+
+    private List<Product> fillProducts(){
+            List<Product> productList = new ArrayList<>();
+            productList.add(new Product(1,"Lavarropas",250.99));
+            productList.add(new Product(2,"Televisor",480.75));
+            productList.add(new Product(3,"Telefono móvil",135.99));
+            return productList;
     }
 }

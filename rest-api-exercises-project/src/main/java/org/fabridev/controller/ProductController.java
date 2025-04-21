@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api-rest/product")
 public class ProductController {
@@ -20,6 +22,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Integer id) throws ProductNotFoundException{
          return new ResponseEntity<>(service.findProductById(id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll(){
+        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
     @PostMapping

@@ -17,10 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +36,7 @@ public class ProductControllerTest {
     @MockBean
     private ProductService service;
 
+    @MockBean
     private Product product;
 
     @BeforeEach
@@ -68,6 +71,26 @@ public class ProductControllerTest {
         // Then
         result.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Product with this ID not found."));
+    }
+
+    @Test
+    void findAll_findAllProducts_returnProductList() throws Exception {
+        //given
+        List<Product> productList= fillProducts();
+        Mockito.when(service.findAll()).thenReturn(productList);
+
+        //when
+        ResultActions result = mockMvc.perform(get("/api-rest/product"))
+
+        //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(3))
+                .andExpect(jsonPath("$[0]name").value("Lavarropas"))
+                .andExpect(jsonPath("$[1]name").value("Televisor"))
+                .andExpect(jsonPath("$[0]id").value(1))
+                .andExpect(jsonPath("$[1]id").value(2))
+                .andExpect(jsonPath("$[2]id").value(3));
+
     }
 
     @Test
@@ -213,6 +236,14 @@ public class ProductControllerTest {
         //then
         result.andExpect(status().isNotFound());
         verify(service).deleteProduct(idNonExistent);
+    }
+
+    private List<Product> fillProducts(){
+        List<Product> productList = new ArrayList<>();
+        productList.add(new Product(1,"Lavarropas",250.99));
+        productList.add(new Product(2,"Televisor",480.75));
+        productList.add(new Product(3,"Telefono móvil",135.99));
+        return productList;
     }
 
 }
