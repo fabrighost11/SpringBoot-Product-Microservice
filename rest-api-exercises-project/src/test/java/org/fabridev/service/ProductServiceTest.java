@@ -104,7 +104,7 @@ public class ProductServiceTest {
     @Test
     void save_failToCreateProductWithNullPrice_returnInvalidProductException() {
         //given
-        String expected = "Price of the product must be higher than 0.";
+        String expected = "Price of the product cant be null and must be higher than 0.";
         Product product = new Product(4,"Mesa",null);
 
         //when
@@ -120,7 +120,7 @@ public class ProductServiceTest {
     @Test
     void save_failToCreateProductWithPriceEqualsZero_returnInvalidProductException() {
         //given
-        String expected = "Price of the product must be higher than 0.";
+        String expected = "Price of the product cant be null and must be higher than 0.";
         Product product = new Product(0,"Mesa",0.0);
 
         //when
@@ -136,7 +136,7 @@ public class ProductServiceTest {
     @Test
     void save_failToCreateProductWithLowerThanZero_returnInvalidProductException() {
         //given
-        String expected = "Price of the product must be higher than 0.";
+        String expected = "Price of the product cant be null and must be higher than 0.";
         Product product = new Product(-4,"Mesa",null);
 
         //when

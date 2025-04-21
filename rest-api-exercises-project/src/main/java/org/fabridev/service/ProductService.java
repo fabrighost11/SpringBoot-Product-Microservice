@@ -79,7 +79,7 @@ public class ProductService {
         }
     }
 
-    public boolean productExists(Integer id){
+    private boolean productExists(Integer id){
 
         if(id == null){
             return false;
