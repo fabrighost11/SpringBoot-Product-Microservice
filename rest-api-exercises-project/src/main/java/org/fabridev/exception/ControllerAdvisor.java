@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ControllerAdvisor extends ResponseEntityExceptionHandler {
+public class ControllerAdvisor  {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object>handleProductNotFound(ProductNotFoundException e){

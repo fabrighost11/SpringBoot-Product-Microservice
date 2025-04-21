@@ -30,7 +30,7 @@ public class ProductService {
 
     public Product findProductById(Integer id) throws ProductNotFoundException{
         return productList.stream()
-                .filter(p -> p.getId().equals(id))
+                .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException());
     }
@@ -91,7 +91,7 @@ public class ProductService {
         }
 
         return productList.stream()
-                .anyMatch(p -> id.equals(p.getId()));
+                .anyMatch(product -> id.equals(product.getId()));
     }
 
 }
