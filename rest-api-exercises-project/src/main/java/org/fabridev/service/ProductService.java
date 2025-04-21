@@ -75,7 +75,7 @@ public class ProductService {
             throw new InvalidProductException("Name of the product cant be empty.");
         }
         if(product.getPrice() == null || product.getPrice() <= 0){
-            throw new InvalidProductException("Price of the product must be higher than 0.");
+            throw new InvalidProductException("Price of the product cant be null and must be higher than 0.");
         }
     }
 
