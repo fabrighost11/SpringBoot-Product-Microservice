@@ -1,38 +1,50 @@
-package org.fabridev.model;
+package org.fabridev.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.fabridev.model.Product;
+import org.fabridev.model.Type;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table(name = "products")
-public class Product {
+@Schema(description = "Response to requests made")
+public class ProductResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Schema(description = "ID of the product", example = "2")
     private Long id;
 
-    @Column(name = "name")
+    @Schema(description = "Name of the product", example = "television")
     private String name;
-    @Column(name = "price")
+
+    @Schema(description = "Price of the product", example = "480.75")
     private Double price;
-    @Column(name = "stock")
+
+    @Schema(description = "Stock of the product", example = "38")
     private Integer stock;
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
+
+    @Schema(description = "Type of product", example = "TECHNOLOGICAL")
     private Type type;
 
-    public Product() {
+    public ProductResponse() {
     }
 
-    public Product(Long id, String name, Double price, Integer stock, Type type) {
+    public ProductResponse(Long id, String name, Double price, Integer stock, Type type) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.type = type;
     }
+
+//    public ProductResponse(Product product) {
+//        if (product != null) {
+//            this.id = product.getId();
+//            this.name = product.getName();
+//            this.price = product.getPrice();
+//            this.stock = product.getStock();
+//            this.type = product.getType();
+//        }
+//    }
+
 
     public Long getId() {
         return id;
@@ -75,15 +87,10 @@ public class Product {
     }
 
     @Override
-    public String toString(){
-        return "Product{id="+ id + ", name=" + name + " price=" + price + "}";
-    }
-
-    @Override
     public boolean equals(Object o){
         if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product that = (Product) o;
+        if (!(o instanceof ProductResponse)) return false;
+        ProductResponse that = (ProductResponse) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price)
                 && Objects.equals(stock, that.stock) && Objects.equals(type, that.type);
     }

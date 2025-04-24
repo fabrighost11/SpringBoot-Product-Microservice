@@ -1,97 +1,109 @@
 package org.fabridev.service;
 
+import org.fabridev.dto.ProductDto;
 import org.fabridev.exception.ProductAlreadyExistsException;
 import org.fabridev.exception.ProductNotFoundException;
 import org.fabridev.exception.InvalidProductException;
 import org.fabridev.model.Product;
+import org.fabridev.repository.ProductRepository;
+import org.fabridev.response.ProductResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
-    private final List<Product> productList = new ArrayList<>();
+    private final ProductRepository productRepository;
 
-    private int incrementId;
-
-    public ProductService() {
-        productList.add(new Product(1,"Lavarropas",250.99));
-        productList.add(new Product(2,"Televisor",480.75));
-        productList.add(new Product(3,"Telefono móvil",135.99));
-
-        this.incrementId = productList.stream()
-                .mapToInt(Product::getId)
-                .max()
-                .orElse(0) +1;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    public Product findProductById(Integer id) throws ProductNotFoundException{
-        return productList.stream()
-                .filter(product -> product.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ProductNotFoundException());
+    public ProductResponse findProductById(Long id) throws ProductNotFoundException{
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->new ProductNotFoundException());
+        return convertToProductResponse(product);
     }
 
-    public List<Product> findAll(){
-        return productList;
+    public List<ProductResponse> findAll(){
+        return productRepository.findAll()
+                .stream()
+                .map(product -> convertToProductResponse(product))
+                .collect(Collectors.toList());
     }
 
-    public Product save(Product product) throws InvalidProductException, ProductAlreadyExistsException {
+    public ProductResponse createProduct(ProductDto productDto) throws InvalidProductException, ProductAlreadyExistsException {
 
-        checkProductIsValid(product);
+        checkProductIsValid(productDto);
 
-        if(productExists(product.getId())){
-            throw  new ProductAlreadyExistsException("Product already exists.");
+        if(productRepository.existsByName(productDto.getName())){
+            throw new ProductAlreadyExistsException("Product already exists.");
         }
 
-        if(product.getId() == null){
-            product.setId(incrementId++);
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setStock(productDto.getStock());
+        product.setType(productDto.getType());
+
+        Product savedProduct = productRepository.save(product);
+        return convertToProductResponse(savedProduct);
+    }
+
+    public ProductResponse updateProduct(Long id, ProductDto productDto) throws ProductNotFoundException, InvalidProductException {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->new ProductNotFoundException());
+
+        checkProductIsValid(productDto);
+
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setStock(productDto.getStock());
+        product.setType(productDto.getType());
+
+        Product updatedProduct = productRepository.save(product);
+
+        return convertToProductResponse(updatedProduct);
+
+
+    }
+
+    public void deleteProduct(Long id) throws ProductNotFoundException{
+
+        if(!productRepository.existsById(id)){
+            throw new ProductNotFoundException();
         }
 
-        productList.add(product);
-        return product;
+        productRepository.deleteById(id);
 
     }
 
-    public Product updateProduct(Integer id, Product newProduct) throws ProductNotFoundException, InvalidProductException{
-
-        Product originalProduct = findProductById(id);
-
-        checkProductIsValid(newProduct);
-        originalProduct.setName(newProduct.getName());
-        originalProduct.setPrice(newProduct.getPrice());
-
-        return originalProduct;
-
-    }
-
-    public void deleteProduct(Integer id) throws ProductNotFoundException, InvalidProductException{
-
-        Product product = findProductById(id);
-        productList.remove(product);
-
-    }
-
-    private void checkProductIsValid(Product product){
-        if (product.getName() == null || product.getName().trim().isEmpty()){
+    private void checkProductIsValid(ProductDto productDto){
+        if (productDto.getName() == null || productDto.getName().trim().isEmpty()){
             throw new InvalidProductException("Name of the product cant be empty.");
         }
-        if(product.getPrice() == null || product.getPrice() <= 0){
+        if(productDto.getPrice() == null || productDto.getPrice() <= 0){
             throw new InvalidProductException("Price of the product cant be null and must be higher than 0.");
+        }
+        if(productDto.getStock() == null || productDto.getStock() < 0){
+            throw new InvalidProductException("Stock cant be null or lower than zero.");
+        }
+        if(productDto.getType() == null){
+            throw new InvalidProductException("Type of product cant be null");
         }
     }
 
-    private boolean productExists(Integer id){
+    private ProductResponse convertToProductResponse(Product product) {
 
-        if(id == null){
-            return false;
+        if (product == null){
+            return null;
         }
-
-        return productList.stream()
-                .anyMatch(product -> id.equals(product.getId()));
+        return new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getStock(), product.getType());
     }
 
 }
