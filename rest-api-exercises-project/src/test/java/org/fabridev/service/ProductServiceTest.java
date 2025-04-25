@@ -1,9 +1,7 @@
 package org.fabridev.service;
 
-import org.fabridev.controller.ProductController;
 import org.fabridev.dto.ProductDto;
 import org.fabridev.exception.InvalidProductException;
-import org.fabridev.exception.ProductAlreadyExistsException;
 import org.fabridev.exception.ProductNotFoundException;
 import org.fabridev.model.Product;
 import org.fabridev.model.Type;
@@ -13,24 +11,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.fabridev.model.Type.TECHNOLOGICAL;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-@RunWith(MockitoJUnitRunner.class)
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
     @Mock
@@ -45,7 +39,7 @@ public class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-       product = new Product(1l,"Headphone",64.0,67,TECHNOLOGICAL);
+       product = new Product(1L,"Headphone",64.0,67, TECHNOLOGICAL);
        productDto = new ProductDto("Headphone", 64.0, 67,TECHNOLOGICAL);
        productResponse = new ProductResponse(1L,"Headphone", 64.0, 67,TECHNOLOGICAL);
 
@@ -64,197 +58,130 @@ public class ProductServiceTest {
         ProductResponse actual = service.findProductById(productId);
 
         //then
-//        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(expected.getName(),actual.getName());
-
-        verify(productRepository.findById(productId));
+        Assertions.assertEquals(expected,actual);
 
     }
-////
-//    @Test
-//    void findProductById_productIdNotFound_returnException() {
-//        //given
-//        int idNonExistent = 99;
-//        String expected = "Product with this ID not found.";
 //
-//        //when
-//        ProductNotFoundException actualException = assertThrows(
-//                ProductNotFoundException.class,
-//                () -> service.findProductById(idNonExistent)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void findAll_findAllProductsInTheList_returnProductList(){
-//        //given
-//        List<Product> expected = fillProducts();
-//
-//        //when
-//        List<Product> actual = service.findAll();
-//
-//        //then
-//        Assertions.assertEquals(expected,actual);
-//
-//    }
-//
-//    @Test
-//    void save_createProducts_returnProductCreated() throws Exception {
-//        //given
-//        Integer idProduct = 4;
-//        Product expected = new Product(idProduct,"Mesa",30.50);
-//        Product product2 = new Product(4,"Mesa",30.50);
-//
-//        //when
-//        Product actual = service.save(product2);
-//
-//        //then
-//        Assertions.assertEquals(expected,actual);
-//    }
-//
-//    @Test
-//    void save_failToCreateProductWithNoName_returnInvalidProductException() {
-//        //given
-//        String expected = "Name of the product cant be empty.";
-//        Product product = new Product(4,"",30.50);
-//
-//        //when
-//        InvalidProductException actualException = assertThrows(
-//                InvalidProductException.class,
-//                () -> service.save(product)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_failToCreateProductWithNullName_returnInvalidProductException() {
-//        //given
-//        String expected = "Name of the product cant be empty.";
-//        Product product = new Product(4,null,30.50);
-//
-//        //when
-//        InvalidProductException actualException = assertThrows(
-//                InvalidProductException.class,
-//                () -> service.save(product)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_failToCreateProductWithNullPrice_returnInvalidProductException() {
-//        //given
-//        String expected = "Price of the product cant be null and must be higher than 0.";
-//        Product product = new Product(4,"Mesa",null);
-//
-//        //when
-//        InvalidProductException actualException = assertThrows(
-//                InvalidProductException.class,
-//                () -> service.save(product)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_failToCreateProductWithPriceEqualsZero_returnInvalidProductException() {
-//        //given
-//        String expected = "Price of the product cant be null and must be higher than 0.";
-//        Product product = new Product(0,"Mesa",0.0);
-//
-//        //when
-//        InvalidProductException actualException = assertThrows(
-//                InvalidProductException.class,
-//                () -> service.save(product)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_failToCreateProductWithLowerThanZero_returnInvalidProductException() {
-//        //given
-//        String expected = "Price of the product cant be null and must be higher than 0.";
-//        Product product = new Product(-4,"Mesa",null);
-//
-//        //when
-//        InvalidProductException actualException = assertThrows(
-//                InvalidProductException.class,
-//                () -> service.save(product)
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_failToCreateExistingProduct_returnProductAlreadyExistsException() {
-//        //given
-//        String expected = "Product already exists.";
-//
-//        //when
-//        ProductAlreadyExistsException actualException = assertThrows(
-//                ProductAlreadyExistsException.class,
-//                () -> service.save(service.findProductById(1))
-//        );
-//
-//        //then
-//        Assertions.assertEquals(expected,actualException.getMessage());
-//    }
-//
-//    @Test
-//    void save_createProductsWithAutoincrementId_returnProductCreated() throws Exception {
-//        //given
-//        Integer idProduct = 4;
-//        Product expected = new Product(idProduct,"Mesa",30.50);
-//        Product product2 = new Product(null,"Mesa",30.50);
-//
-//        //when
-//        Product actual = service.save(product2);
-//
-//        //then
-//        Assertions.assertEquals(expected,actual);
-//    }
-//
-//    @Test
-//    void updateProduct_updateProduct_returnProductUpdated() throws Exception {
-//        //given
-//        Integer idProduct = 3;
-//        Product expected = new Product(idProduct,"Mesa",30.50);
-//
-//        //when
-//        Product actual = service.updateProduct(idProduct,expected);
-//
-//        //then
-//        Assertions.assertEquals(expected,actual);
-//
-//    }
-//
-//    @Test
-//    void deleteProduct_deleteProduct_returnTrue() throws Exception {
-//        //given
-//        Integer idProduct = 3;
-//
-//        //when
-//        service.deleteProduct(idProduct);
-//
-//        //then
-//        Assertions.assertThrows(ProductNotFoundException.class, () -> service.findProductById(idProduct));
-//
-//    }
-//
-//    private List<Product> fillProducts(){
-//            List<Product> productList = new ArrayList<>();
-//            productList.add(new Product(1,"Lavarropas",250.99));
-//            productList.add(new Product(2,"Televisor",480.75));
-//            productList.add(new Product(3,"Telefono móvil",135.99));
-//            return productList;
-//    }
+    @Test
+    void findProductById_productIdNotFound_returnException(){
+        //given
+        Long idNonExistent = 99L;
+        String expected = "Product with this ID not found.";
+        when(productRepository.findById(idNonExistent)).thenReturn(Optional.empty());
+
+        //when
+        ProductNotFoundException actualException = assertThrows(
+                ProductNotFoundException.class,
+                () -> service.findProductById(idNonExistent)
+        );
+
+        //then
+        Assertions.assertEquals(expected,actualException.getMessage());
+    }
+
+    @Test
+    void findAll_findAllProductsInTheList_returnProductList() throws Exception{
+        //given
+        List<ProductResponse> expected = new ArrayList<>();
+        expected.add(productResponse);
+        when(productRepository.findAll()).thenReturn((List.of(product)));
+
+        //when
+        List<ProductResponse> actual = service.findAll();
+
+        //then
+        Assertions.assertEquals(expected.size(),actual.size());
+        Assertions.assertEquals(expected.get(0).getId(),actual.get(0).getId());
+        Assertions.assertEquals(expected.get(0).getName(),actual.get(0).getName());
+        Assertions.assertEquals(expected.get(0).getPrice(),actual.get(0).getPrice());
+        Assertions.assertEquals(expected.get(0).getStock(),actual.get(0).getStock());
+        Assertions.assertEquals(expected.get(0).getType(),actual.get(0).getType());
+
+    }
+
+    @Test
+    void save_createProducts_returnProductCreated() throws Exception {
+        //given
+        ProductResponse expected = productResponse;
+        when(productRepository.save(new Product(null, productDto.getName(), productDto.getPrice(), productDto.getStock(), productDto.getType()))).thenReturn(product);
+
+        //when
+        ProductResponse actual = service.createProduct(productDto);
+
+        //then
+        Assertions.assertEquals(expected,actual);
+    }
+
+    @Test
+    void updateProduct_updateProduct_returnProductUpdated() throws Exception {
+        //given
+        ProductResponse expected = productResponse;
+        ProductDto productDto1 = new ProductDto("name", 24.0, 2, Type.FURNITURE);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.save(product)).thenReturn(product);
+
+        //when
+        ProductResponse actual = service.updateProduct(1L, productDto1);
+
+        //then
+        Assertions.assertNotEquals(expected, actual); // Check for reference inequality
+    }
+
+    @Test
+    void deleteProduct_deleteProduct_returnTrue() throws Exception {
+        //given
+        Long idProduct = 1L;
+        when(productRepository.existsById(idProduct)).thenReturn(true);
+
+        //when
+        service.deleteProduct(idProduct);
+
+        //then
+        verify(productRepository).deleteById(idProduct);
+    }
+
+    @Test
+    void deleteProduct_deleteProductThatNoExists_returnException(){
+        //given
+        Long idProduct = 99L;
+        when(productRepository.existsById(idProduct)).thenReturn(false);
+
+        //when
+        assertThrows(ProductNotFoundException.class, () -> {
+            service.deleteProduct(idProduct);
+        });
+
+        //then
+        verify(productRepository).existsById(idProduct);
+    }
+
+    @Test
+    void save_createProducts_returnCorrectProductResponse() throws Exception{
+        //given
+        when(productRepository.save(any(Product.class))).thenReturn(product);
+
+        //when
+        ProductResponse actual = service.createProduct(productDto);
+
+        //then
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(productResponse.getId(),actual.getId());
+        Assertions.assertEquals(productResponse.getName(),actual.getName());
+        Assertions.assertEquals(productResponse.getPrice(),actual.getPrice());
+        Assertions.assertEquals(productResponse.getStock(),actual.getStock());
+        Assertions.assertEquals(productResponse.getType(),actual.getType());
+    }
+
+    @Test
+    void save_createProducts_returnNull(){
+        //given
+        when(productRepository.save(any(Product.class))).thenReturn(null);
+
+        //when
+        ProductResponse actual = service.createProduct(productDto);
+
+        //then
+        Assertions.assertNull(actual);
+    }
 }
+

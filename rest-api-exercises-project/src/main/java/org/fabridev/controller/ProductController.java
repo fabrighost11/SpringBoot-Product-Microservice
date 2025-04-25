@@ -3,7 +3,6 @@ package org.fabridev.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.fabridev.dto.ProductDto;
-import org.fabridev.exception.ProductAlreadyExistsException;
 import org.fabridev.exception.ProductNotFoundException;
 import org.fabridev.exception.InvalidProductException;
 import org.fabridev.response.ProductResponse;
@@ -11,8 +10,10 @@ import org.fabridev.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,13 +38,13 @@ public class ProductController {
 
     @Operation(summary = "Add product", description = "Create new product")
     @PostMapping
-    public ResponseEntity<ProductResponse> addProductById(@RequestBody ProductDto productDto) throws InvalidProductException, ProductAlreadyExistsException {
+    public ResponseEntity<ProductResponse> addProductById(@Valid @RequestBody ProductDto productDto) throws MethodArgumentNotValidException {
         return new ResponseEntity<>(service.createProduct(productDto), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update product", description = "Update an existing product by its ID")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws ProductNotFoundException, InvalidProductException{
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) throws ProductNotFoundException, MethodArgumentNotValidException{
         return new ResponseEntity<>(service.updateProduct(id,productDto), HttpStatus.OK);
 
     }

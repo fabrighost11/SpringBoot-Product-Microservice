@@ -35,17 +35,6 @@ public class ProductResponse {
         this.type = type;
     }
 
-//    public ProductResponse(Product product) {
-//        if (product != null) {
-//            this.id = product.getId();
-//            this.name = product.getName();
-//            this.price = product.getPrice();
-//            this.stock = product.getStock();
-//            this.type = product.getType();
-//        }
-//    }
-
-
     public Long getId() {
         return id;
     }
