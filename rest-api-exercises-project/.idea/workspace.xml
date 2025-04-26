@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Project API-REST exercise 2 uploaded" />
+    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Project API-REST exercise 4 done">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,25 +20,25 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitLabMergeRequestFiltersHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPENED",
-    "assignee": {
-      "type": "org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue",
-      "username": "fs.biancotti",
-      "fullname": "BIANCOTTI Fabrizzio Santiago"
+  <component name="GitLabMergeRequestFiltersHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPENED&quot;,
+    &quot;assignee&quot;: {
+      &quot;type&quot;: &quot;org.jetbrains.plugins.gitlab.mergerequest.ui.filters.GitLabMergeRequestsFiltersValue.MergeRequestsMemberFilterValue.MergeRequestsAssigneeFilterValue&quot;,
+      &quot;username&quot;: &quot;fs.biancotti&quot;,
+      &quot;fullname&quot;: &quot;BIANCOTTI Fabrizzio Santiago&quot;
     }
   }
-}]]></component>
-  <component name="GitLabMergeRequestsSettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "first": "https://innersource.soprasteria.com/digitalscteam/formaciones/intership-back-25/fabrizzio-biancotti/rest-api-exercises.git",
-    "second": "d471faad-2bf0-41da-b6b6-58cb17313aa8"
+}</component>
+  <component name="GitLabMergeRequestsSettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;first&quot;: &quot;https://innersource.soprasteria.com/digitalscteam/formaciones/intership-back-25/fabrizzio-biancotti/rest-api-exercises.git&quot;,
+    &quot;second&quot;: &quot;d471faad-2bf0-41da-b6b6-58cb17313aa8&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2vlM6jcs6gblUu8sEm7Xv0X0L52" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -44,13 +46,118 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.MainApplication.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductStockLowerThanZero_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductWithEmptyName_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductWithNullStock_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductWithNullThanZero_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductWithNullType_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProductWithPriceLowerThanZero_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.addProductById_createProduct_returnProduct.executor": "Run",
+    "JUnit.ProductControllerTest.addProduct_addProductNullName_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.deleteProduct_deleteProductById_returnVoid.executor": "Run",
+    "JUnit.ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.executor": "Coverage",
+    "JUnit.ProductControllerTest.getProductById_validId_returnsProductResponse.executor": "Coverage",
+    "JUnit.ProductControllerTest.updateProduct_updatedProductInfo_returnProduct.executor": "Run",
+    "JUnit.ProductServiceTest.executor": "Coverage",
+    "JUnit.ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/hu03",
+    "git-widget-placeholder": "feature/hu04-jpa",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/rest-api-exercises/rest-api-exercises-project"
   }
 }]]></component>
+  <component name="RunManager" selected="JUnit.ProductServiceTest">
+    <configuration name="ProductControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fabridev.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductControllerTest.deleteProduct_deleteProductById_returnVoid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fabridev.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
+      <option name="METHOD_NAME" value="deleteProduct_deleteProductById_returnVoid" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fabridev.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
+      <option name="METHOD_NAME" value="deleteProduct_deleteProductThatNotExists_returnException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fabridev.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fabridev.service" />
+      <option name="MAIN_CLASS_NAME" value="org.fabridev.service.ProductServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.fabridev.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.fabridev.service" />
+      <option name="MAIN_CLASS_NAME" value="org.fabridev.service.ProductServiceTest" />
+      <option name="METHOD_NAME" value="updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ProductServiceTest" />
+        <item itemvalue="JUnit.ProductControllerTest" />
+        <item itemvalue="JUnit.ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" />
+        <item itemvalue="JUnit.ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException" />
+        <item itemvalue="JUnit.ProductControllerTest.deleteProduct_deleteProductById_returnVoid" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -68,11 +175,31 @@
       <option name="project" value="LOCAL" />
       <updated>1744716613228</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Project API-REST exercise 4 done">
+      <option name="closed" value="true" />
+      <created>1745680669886</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745680669886</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project API-REST exercise 2 uploaded" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project API-REST exercise 2 uploaded" />
+    <MESSAGE value="Project API-REST exercise 4 done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project API-REST exercise 4 done" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest.ic" NAME="ProductControllerTest Coverage Results" MODIFIED="1745680397631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.fabridev.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1745680418098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.fabridev.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest_getProductById_validId_returnsProductResponse.ic" NAME="ProductControllerTest.getProductById_validId_returnsProductResponse Coverage Results" MODIFIED="1745673136584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.fabridev.controller.*</FILTER>
+    </SUITE>
   </component>
 </project>
