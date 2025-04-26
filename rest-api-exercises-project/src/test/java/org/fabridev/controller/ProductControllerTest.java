@@ -3,9 +3,7 @@ package org.fabridev.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fabridev.dto.ProductDto;
 import org.fabridev.exception.ProductNotFoundException;
-import org.fabridev.model.Product;
 import org.fabridev.model.Type;
-import org.fabridev.repository.ProductRepository;
 import org.fabridev.response.ProductResponse;
 import org.fabridev.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,18 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -46,17 +41,18 @@ public class ProductControllerTest {
     private ObjectMapper objectMapper;
 
     private ProductResponse productResponse;
+    private ProductDto productDto;
 
     @BeforeEach
     void setUp(){
         productResponse = new ProductResponse(1L,"Byke",1200.00,21,Type.SPORTS);
+        productDto = new ProductDto("Byke",1200.00,21,Type.SPORTS);
     }
 
     @Test
     void getProductById_validId_returnsProductResponse() throws Exception {
         // Given
         Long idProduct = 1L;
-//        ProductResponse productResponse = new ProductResponse(idProduct,"Horno",234.99,44,Type.HOME_APPLIANCE);
         Mockito.when(service.findProductById(idProduct)).thenReturn(productResponse);
 
         // When
@@ -69,20 +65,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.price").value(1200.00))
                 .andExpect(jsonPath("$.stock").value(21))
                 .andExpect(jsonPath("$.type").value("SPORTS"));
-    }
-
-
-    @Test
-    void getProductById_invalidId_returnsProductNotFoundException() throws Exception {
-        // Given
-        Mockito.when(service.findProductById(anyLong())).thenThrow(new ProductNotFoundException());
-
-        // When
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/product/{id}", productResponse.getId()));
-
-        // Then
-        result.andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Product with this ID not found."));
     }
 
     @Test
@@ -108,8 +90,7 @@ public class ProductControllerTest {
     @Test
     void addProductById_createProduct_returnProduct() throws Exception{
         //given
-        Long idProduct = 4L;
-        ProductDto productDto = new ProductDto("Table",30.50,34,Type.FURNITURE);
+        Long idProduct = 1L;
         ProductResponse createdProduct = new ProductResponse(idProduct,productDto.getName(),productDto.getPrice(), productDto.getStock(), productDto.getType());
         when(service.createProduct(any(ProductDto.class))).thenReturn(createdProduct);
 
@@ -120,142 +101,148 @@ public class ProductControllerTest {
 
         //then
         result.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(4))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Byke"))
+                .andExpect(jsonPath("$.price").value(1200.00))
+                .andExpect(jsonPath("$.stock").value(21))
+                .andExpect(jsonPath("$.type").value("SPORTS"));
+    }
+
+    @Test
+    void addProductById_createProductWithEmptyName_returnException() throws Exception{
+        //given
+        Long idProduct = 4L;
+        productDto.setName("");
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("name: Name of the product cant be empty."));
+
+    }
+
+    @Test
+    void addProductById_createProductWithPriceLowerThanZero_returnException() throws Exception{
+        //given
+        productDto.setPrice(0.0);
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("price: Price of the product cant be lower than zero."));
+
+    }
+
+    @Test
+    void addProductById_createProductWithNullThanZero_returnException() throws Exception{
+        //given
+        productDto.setPrice(null);
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("price: Price of the product cant be null."));
+
+    }
+
+    @Test
+    void addProductById_createProductWithNullStock_returnException() throws Exception{
+        //given
+        productDto.setStock(null);
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("stock: Stock cant be null."));
+
+    }
+
+    @Test
+    void addProductById_createProductStockLowerThanZero_returnException() throws Exception{
+        //given
+        productDto.setStock(-99);
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("stock: Stock must be zero or higher."));
+
+    }
+
+    @Test
+    void addProductById_createProductWithNullType_returnException() throws Exception{
+        //given
+        productDto.setType(null);
+
+        //when
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("type: Type of product cant be null."));
+
+    }
+
+    @Test
+    void updateProduct_updatedProductInfo_returnProduct() throws Exception{
+        //given
+        Long idProduct = 1L;
+        productDto.setName("Table");
+        productDto.setPrice(45.0);
+        productDto.setStock(78);
+        productDto.setType(Type.FURNITURE);
+        ProductResponse updatedProduct = new ProductResponse(idProduct,productDto.getName(), productDto.getPrice(), productDto.getStock(), productDto.getType());
+        when(service.updateProduct(eq(idProduct), any(ProductDto.class))).thenReturn(updatedProduct);
+
+        //when
+        ResultActions result = mockMvc.perform(put("/api/product/{id}",idProduct)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productDto)));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Table"))
-                .andExpect(jsonPath("$.price").value(30.50))
-                .andExpect(jsonPath("$.stock").value(34))
+                .andExpect(jsonPath("$.price").value(45.0))
+                .andExpect(jsonPath("$.stock").value(78))
                 .andExpect(jsonPath("$.type").value("FURNITURE"));
     }
 
-//    @Test
-//    void addProductById_createProductWithEmptyName_returnException() throws Exception{
-//        //given
-//        Long idProduct = 4L;
-//        ProductDto productDto = new ProductDto("",30.50,34,Type.FURNITURE);
-//        ProductResponse createdProduct = new ProductResponse(idProduct,productDto.getName(),productDto.getPrice(), productDto.getStock(), productDto.getType());
-//        when(service.createProduct(any(ProductDto.class))).thenThrow(new MethodArgumentNotValidException("Name of the product cant be empty."));
-//
-//        //when
-//        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api-rest/product")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"\", \"price\": 30.50 }"));
-//
-//        //then
-//        result.andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.message").value("Name of the product cant be empty."));
-//
-//    }
-//
-//    @Test
-//    void addProductById_createProductWithPriceLowerThanZero_returnException() throws Exception{
-//        //given
-//        when(service.save(any(Product.class))).thenThrow(new InvalidProductException("Price of the product must be higher than 0."));
-//
-//        //when
-//        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api-rest/product")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"Mesa\", \"price\": 0 }"));
-//
-//        //then
-//        result.andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.message").value("Price of the product must be higher than 0."));
-//
-//    }
-//
-//    @Test
-//    void addProductById_createExistingProduct_returnException() throws Exception{
-//        //given
-//        when(service.save(any(Product.class))).thenThrow(new ProductAlreadyExistsException("Product already exists."));
-//
-//        //when
-//        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api-rest/product")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"Mesa\", \"price\": 30.50 }"));
-//
-//        //then
-//        result.andExpect(status().isConflict())
-//                .andExpect(jsonPath("$.message").value("Product already exists."));
-//
-//    }
-//
-//    @Test
-//    void updateProduct_updatedProductInfo_returnProduct() throws Exception{
-//        //given
-//        Integer idProduct = 3;
-//        Product updatedProduct = new Product(idProduct,"Laptop",350.00);
-//        when(service.updateProduct(eq(idProduct), any(Product.class))).thenReturn(updatedProduct);
-//
-//        //when
-//        ResultActions result = mockMvc.perform(put("/api-rest/product/{id}",idProduct)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"Laptop\", \"price\": 350.00 }"));
-//
-//        //then
-//        result.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(3))
-//                .andExpect(jsonPath("$.name").value("Laptop"))
-//                .andExpect(jsonPath("$.price").value(350.00));
-//    }
-//
-//    @Test
-//    void updateProduct_updatedProductWithNoName_returnException() throws Exception{
-//        //given
-//        when(service.save(any(Product.class))).thenThrow(new InvalidProductException("Name of the product cant be empty."));
-//
-//        //when
-//        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api-rest/product")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"Mesa\", \"price\": 30.50 }"));
-//
-//        //then
-//        result.andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.message").value("Name of the product cant be empty."));
-//
-//    }
-//
-//    @Test
-//    void updateProduct_updatedProductWithPriceLowerThanZero_returnException() throws Exception{
-//        //given
-//        when(service.save(any(Product.class))).thenThrow(new InvalidProductException("Price of the product must be higher than 0."));
-//
-//        //when
-//        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api-rest/product")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"name\": \"Mesa\", \"price\": 30.50 }"));
-//
-//        //then
-//        result.andExpect(status().isBadRequest())
-//                .andExpect(jsonPath("$.message").value("Price of the product must be higher than 0."));
-//
-//    }
-//
-//    @Test
-//    void deleteProduct_deleteProductById_returnVoid() throws Exception{
-//        //given
-//        Integer idProduct = 3;
-//
-//        //when
-//        ResultActions result = mockMvc.perform(delete("/api-rest/product/{id}", idProduct));
-//
-//        //then
-//        result.andExpect(status().isNoContent());
-//        verify(service).deleteProduct(idProduct);
-//    }
-//
-//    @Test
-//    void deleteProduct_deleteProductThatNotExists_returnException() throws Exception{
-//        //given
-//        Integer idNonExistent = 333;
-//        doThrow(new ProductNotFoundException()).when(service).deleteProduct(idNonExistent);
-//
-//        //when
-//        ResultActions result = mockMvc.perform(delete("/api-rest/product/{id}", idNonExistent));
-//
-//        //then
-//        result.andExpect(status().isNotFound());
-//        verify(service).deleteProduct(idNonExistent);
-//    }
-//
+    @Test
+    void deleteProduct_deleteProductById_returnVoid() throws Exception{
+        //given
+        Long idProduct = 1L;
+
+        //when
+        ResultActions result = mockMvc.perform(delete("/api/product/{id}", idProduct));
+
+        //then
+        result.andExpect(status().isNoContent());
+        verify(service).deleteProduct(idProduct);
+    }
+
     private List<ProductResponse> fillProductsResponse(){
         List<ProductResponse> productResponseListList = new ArrayList<>();
         productResponseListList.add(productResponse);

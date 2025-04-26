@@ -54,7 +54,6 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() ->new ProductNotFoundException());
 
-//        checkProductIsValid(productDto);
 
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());

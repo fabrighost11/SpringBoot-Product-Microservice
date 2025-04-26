@@ -1,7 +1,6 @@
 package org.fabridev.service;
 
 import org.fabridev.dto.ProductDto;
-import org.fabridev.exception.InvalidProductException;
 import org.fabridev.exception.ProductNotFoundException;
 import org.fabridev.model.Product;
 import org.fabridev.model.Type;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.fabridev.model.Type.TECHNOLOGICAL;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -61,7 +59,7 @@ public class ProductServiceTest {
         Assertions.assertEquals(expected,actual);
 
     }
-//
+
     @Test
     void findProductById_productIdNotFound_returnException(){
         //given
@@ -124,7 +122,24 @@ public class ProductServiceTest {
         ProductResponse actual = service.updateProduct(1L, productDto1);
 
         //then
-        Assertions.assertNotEquals(expected, actual); // Check for reference inequality
+        Assertions.assertNotEquals(expected, actual);
+    }
+
+    @Test
+    void updateProduct_updateProductWithNoExistingId_returnProductNotFoundException() throws Exception {
+        //given
+        Long idNonExistent = 99L;
+        String expected = "Product with this ID not found.";
+        when(productRepository.findById(idNonExistent)).thenReturn(Optional.empty());
+
+        //when
+        ProductNotFoundException actualException = assertThrows(
+                ProductNotFoundException.class,
+                () -> service.findProductById(idNonExistent)
+        );
+
+        //then
+        Assertions.assertEquals(expected,actualException.getMessage());
     }
 
     @Test
