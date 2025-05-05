@@ -1,4 +1,4 @@
-package org.fabridev.exception;
+package org.products.exception;
 
 public class ProductNotFoundException extends Exception{
     public ProductNotFoundException(){

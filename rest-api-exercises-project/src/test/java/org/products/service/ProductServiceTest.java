@@ -1,11 +1,11 @@
-package org.fabridev.service;
+package org.products.service;
 
-import org.fabridev.dto.ProductDto;
-import org.fabridev.exception.ProductNotFoundException;
-import org.fabridev.model.Product;
-import org.fabridev.model.Type;
-import org.fabridev.repository.ProductRepository;
-import org.fabridev.response.ProductResponse;
+import org.products.dto.request.ProductRequest;
+import org.products.exception.ProductNotFoundException;
+import org.products.model.Product;
+import org.products.model.ProductType;
+import org.products.repository.ProductRepository;
+import org.products.dto.response.ProductResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.products.repository.ProductTypeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.fabridev.model.Type.TECHNOLOGICAL;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -28,18 +28,23 @@ public class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductTypeRepository productTypeRepository;
+
     @InjectMocks
     private ProductService service;
 
+    private ProductType productType;
     private Product product;
-    private ProductDto productDto;
+    private ProductRequest productRequest;
     private ProductResponse productResponse;
 
     @BeforeEach
     void setUp() {
-       product = new Product(1L,"Headphone",64.0,67, TECHNOLOGICAL);
-       productDto = new ProductDto("Headphone", 64.0, 67,TECHNOLOGICAL);
-       productResponse = new ProductResponse(1L,"Headphone", 64.0, 67,TECHNOLOGICAL);
+        productType = new ProductType(3L,"TECHNOLOGICAL");
+       product = new Product(1L,"Headphone",64.0,67, productType);
+       productRequest = new ProductRequest("Headphone", 64.0, 67,productType.getId());
+       productResponse = new ProductResponse(1L,"Headphone", 64.0, 67,productType.getName());
 
 
     }
@@ -48,9 +53,8 @@ public class ProductServiceTest {
     void findProductById_findProductById_returnProductData() throws Exception {
         //given
         ProductResponse expected = productResponse;
-
         Long productId = 1L;
-        when(productRepository.findById(productId)).thenReturn(Optional.ofNullable(product));
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         //when
         ProductResponse actual = service.findProductById(productId);
@@ -101,10 +105,12 @@ public class ProductServiceTest {
     void save_createProducts_returnProductCreated() throws Exception {
         //given
         ProductResponse expected = productResponse;
-        when(productRepository.save(new Product(null, productDto.getName(), productDto.getPrice(), productDto.getStock(), productDto.getType()))).thenReturn(product);
+        Long productTypeId = 3L;
+        when(productTypeRepository.findById(productTypeId)).thenReturn(Optional.of(productType));
+        when(productRepository.save(any(Product.class))).thenReturn(product);
 
         //when
-        ProductResponse actual = service.createProduct(productDto);
+        ProductResponse actual = service.createProduct(productRequest);
 
         //then
         Assertions.assertEquals(expected,actual);
@@ -114,15 +120,23 @@ public class ProductServiceTest {
     void updateProduct_updateProduct_returnProductUpdated() throws Exception {
         //given
         ProductResponse expected = productResponse;
-        ProductDto productDto1 = new ProductDto("name", 24.0, 2, Type.FURNITURE);
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-        when(productRepository.save(product)).thenReturn(product);
+        ProductType newType = new ProductType(2L,"FURNITURE");
+        Long productTypeId = 2L;
+        Long productId = 1L;
+        ProductRequest request = new ProductRequest("home",454.00,21,2L);
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(productTypeRepository.findById(productTypeId)).thenReturn(Optional.of(productType));
+        when(productRepository.save(any(Product.class))).thenReturn(new Product(1L,"home",454.00,21,newType));
 
         //when
-        ProductResponse actual = service.updateProduct(1L, productDto1);
+        ProductResponse actual = service.updateProduct(productId, request);
 
         //then
-        Assertions.assertNotEquals(expected, actual);
+        Assertions.assertEquals(1L,actual.getId());
+        Assertions.assertNotEquals(expected.getName(), actual.getName());
+        Assertions.assertNotEquals(expected.getPrice(), actual.getPrice());
+        Assertions.assertNotEquals(expected.getStock(), actual.getStock());
+        Assertions.assertNotEquals(expected.getType(), actual.getType());
     }
 
     @Test
@@ -146,6 +160,7 @@ public class ProductServiceTest {
     void deleteProduct_deleteProduct_returnTrue() throws Exception {
         //given
         Long idProduct = 1L;
+
         when(productRepository.existsById(idProduct)).thenReturn(true);
 
         //when
@@ -173,10 +188,12 @@ public class ProductServiceTest {
     @Test
     void save_createProducts_returnCorrectProductResponse() throws Exception{
         //given
+
+        when(productTypeRepository.findById(3L)).thenReturn(Optional.of(productType));
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
         //when
-        ProductResponse actual = service.createProduct(productDto);
+        ProductResponse actual = service.createProduct(productRequest);
 
         //then
         Assertions.assertNotNull(actual);
@@ -190,10 +207,11 @@ public class ProductServiceTest {
     @Test
     void save_createProducts_returnNull(){
         //given
+        when(productTypeRepository.findById(3L)).thenReturn(Optional.of(productType));
         when(productRepository.save(any(Product.class))).thenReturn(null);
 
         //when
-        ProductResponse actual = service.createProduct(productDto);
+        ProductResponse actual = service.createProduct(productRequest);
 
         //then
         Assertions.assertNull(actual);

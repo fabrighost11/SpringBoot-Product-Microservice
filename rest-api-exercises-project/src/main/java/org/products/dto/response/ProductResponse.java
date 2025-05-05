@@ -1,12 +1,10 @@
-package org.fabridev.response;
+package org.products.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.fabridev.model.Product;
-import org.fabridev.model.Type;
 
 import java.util.Objects;
 
-@Schema(description = "Response to requests made")
+@Schema(description = "Response to products requests made")
 public class ProductResponse {
 
     @Schema(description = "ID of the product", example = "2")
@@ -22,18 +20,19 @@ public class ProductResponse {
     private Integer stock;
 
     @Schema(description = "Type of product", example = "TECHNOLOGICAL")
-    private Type type;
+    private String type;
 
     public ProductResponse() {
     }
 
-    public ProductResponse(Long id, String name, Double price, Integer stock, Type type) {
+    public ProductResponse(Long id, String name, Double price, Integer stock, String type) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.type = type;
     }
+
 
     public Long getId() {
         return id;
@@ -67,11 +66,11 @@ public class ProductResponse {
         this.stock = stock;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -81,11 +80,11 @@ public class ProductResponse {
         if (!(o instanceof ProductResponse)) return false;
         ProductResponse that = (ProductResponse) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price)
-                && Objects.equals(stock, that.stock) && Objects.equals(type, that.type);
+                && Objects.equals(stock, that.stock) /*&& Objects.equals(type, that.type)*/;
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(id,name,price,stock,type);
+        return Objects.hash(id,name,price,stock/*,type*/);
     }
 }

@@ -1,4 +1,4 @@
-package org.fabridev;
+package org.products;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

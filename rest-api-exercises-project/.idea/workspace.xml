@@ -4,13 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Project API-REST exercise 4 done">
+    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Application.properties uploaded">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/ControllerAdvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/exception/ControllerAdvisor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/InvalidProductException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/ProductNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/exception/ProductNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/model/Type.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/response/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/fabridev/controller/ProductControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/fabridev/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/service/ProductServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -36,6 +60,9 @@
     &quot;second&quot;: &quot;d471faad-2bf0-41da-b6b6-58cb17313aa8&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -58,103 +85,132 @@
     "JUnit.ProductControllerTest.deleteProduct_deleteProductById_returnVoid.executor": "Run",
     "JUnit.ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException.executor": "Run",
     "JUnit.ProductControllerTest.executor": "Coverage",
-    "JUnit.ProductControllerTest.getProductById_validId_returnsProductResponse.executor": "Coverage",
+    "JUnit.ProductControllerTest.findAll_findAllProducts_returnProductList.executor": "Run",
+    "JUnit.ProductControllerTest.getProductById_validId_returnsProductResponse.executor": "Run",
     "JUnit.ProductControllerTest.updateProduct_updatedProductInfo_returnProduct.executor": "Run",
+    "JUnit.ProductServiceTest.deleteProduct_deleteProductThatNoExists_returnException.executor": "Run",
+    "JUnit.ProductServiceTest.deleteProduct_deleteProduct_returnTrue.executor": "Run",
     "JUnit.ProductServiceTest.executor": "Coverage",
+    "JUnit.ProductServiceTest.findAll_findAllProductsInTheList_returnProductList.executor": "Run",
+    "JUnit.ProductServiceTest.findProductById_findProductById_returnProductData.executor": "Run",
+    "JUnit.ProductServiceTest.findProductById_productIdNotFound_returnException.executor": "Run",
+    "JUnit.ProductServiceTest.save_createProducts_returnCorrectProductResponse.executor": "Run",
+    "JUnit.ProductServiceTest.save_createProducts_returnNull.executor": "Run",
+    "JUnit.ProductServiceTest.save_createProducts_returnProductCreated.executor": "Run",
     "JUnit.ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException.executor": "Run",
+    "JUnit.ProductServiceTest.updateProduct_updateProduct_returnProductUpdated.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.addProductById_createProductWithEmptyName_returnException.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.addProductById_createProductWithNullType_returnException.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.addProductById_createProduct_returnProduct.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.deleteProductType_deleteProductTypeById_returnVoid.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.executor": "Coverage",
+    "JUnit.ProductTypeCntrollerTest.findAll_findAllProducts_returnProductList.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.getProductById_validId_returnsProductResponse.executor": "Run",
+    "JUnit.ProductTypeCntrollerTest.updateProductType_updatedProductTypeInfo_returnProduct.executor": "Run",
+    "JUnit.ProductTypeServiceTest.createProductType_createTypeNameExists_returnNameExistsException.executor": "Run",
+    "JUnit.ProductTypeServiceTest.createProductType_createTypeSuccessfully_returnTypeCreated.executor": "Run",
+    "JUnit.ProductTypeServiceTest.deleteById_deleteTypeIdNotFound_returnException.executor": "Run",
+    "JUnit.ProductTypeServiceTest.deleteById_deleteTypeSuccessfully_returnVoid.executor": "Run",
+    "JUnit.ProductTypeServiceTest.deleteById_existsProductRelatedToType_returnException.executor": "Run",
+    "JUnit.ProductTypeServiceTest.executor": "Coverage",
+    "JUnit.ProductTypeServiceTest.findAll_findAllProductsTypeInTheList_returnProductTypeList.executor": "Run",
+    "JUnit.ProductTypeServiceTest.findProductTypeById_findTypeSuccessfully_returnTypeResponse.executor": "Run",
+    "JUnit.ProductTypeServiceTest.findProductTypeById_idNotFound_returnNotFoundException.executor": "Run",
+    "JUnit.ProductTypeServiceTest.updateProductType_updateTypeNameExistsAlready_returnException.executor": "Run",
+    "JUnit.ProductTypeServiceTest.updateProductType_updateTypeSuccessfullyWithSameName_returnProductTypeResponse.executor": "Run",
+    "JUnit.ProductTypeServiceTest.updateProductType_updateTypeSuccessfully_returnProductTypeResponse.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/hu04-jpa",
+    "git-widget-placeholder": "!4 on feature/hu04-jpa",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/rest-api-exercises/rest-api-exercises-project"
+    "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/user-microservice-exercise-5/user-microservice-exercise-5/pom.xml"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.ProductServiceTest">
+  <component name="RunManager" selected="JUnit.ProductControllerTest">
     <configuration name="ProductControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-api-exercises-project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fabridev.controller.*" />
+          <option name="PATTERN" value="org.products.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
+      <option name="PACKAGE_NAME" value="org.products.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductControllerTest.deleteProduct_deleteProductById_returnVoid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ProductTypeControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-api-exercises-project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fabridev.controller.*" />
+          <option name="PATTERN" value="org.products.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
-      <option name="METHOD_NAME" value="deleteProduct_deleteProductById_returnVoid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rest-api-exercises-project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fabridev.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.fabridev.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.fabridev.controller.ProductControllerTest" />
-      <option name="METHOD_NAME" value="deleteProduct_deleteProductThatNotExists_returnException" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProductServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rest-api-exercises-project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.fabridev.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.fabridev.service" />
-      <option name="MAIN_CLASS_NAME" value="org.fabridev.service.ProductServiceTest" />
+      <option name="PACKAGE_NAME" value="org.products.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductTypeControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ProductTypeControllerTest.deleteProductType_deleteProductTypeById_returnVoid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-api-exercises-project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.fabridev.service.*" />
+          <option name="PATTERN" value="org.products.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.fabridev.service" />
-      <option name="MAIN_CLASS_NAME" value="org.fabridev.service.ProductServiceTest" />
-      <option name="METHOD_NAME" value="updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" />
+      <option name="PACKAGE_NAME" value="org.products.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductTypeControllerTest" />
+      <option name="METHOD_NAME" value="deleteProductType_deleteProductTypeById_returnVoid" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductTypeControllerTest.updateProductType_updatedProductTypeInfo_returnProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.products.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.products.controller" />
+      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductTypeControllerTest" />
+      <option name="METHOD_NAME" value="updateProductType_updatedProductTypeInfo_returnProduct" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductTypeServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.products.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.products.service" />
+      <option name="MAIN_CLASS_NAME" value="org.products.service.ProductTypeServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ProductServiceTest" />
+        <item itemvalue="JUnit.ProductTypeControllerTest" />
+        <item itemvalue="JUnit.ProductTypeServiceTest" />
         <item itemvalue="JUnit.ProductControllerTest" />
-        <item itemvalue="JUnit.ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException" />
-        <item itemvalue="JUnit.ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException" />
-        <item itemvalue="JUnit.ProductControllerTest.deleteProduct_deleteProductById_returnVoid" />
+        <item itemvalue="JUnit.ProductTypeControllerTest.deleteProductType_deleteProductTypeById_returnVoid" />
+        <item itemvalue="JUnit.ProductTypeControllerTest.updateProductType_updatedProductTypeInfo_returnProduct" />
       </list>
     </recent_temporary>
   </component>
@@ -183,20 +239,35 @@
       <option name="project" value="LOCAL" />
       <updated>1745680669886</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Application.properties uploaded">
+      <option name="closed" value="true" />
+      <created>1745681198123</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745681198123</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project API-REST exercise 2 uploaded" />
     <MESSAGE value="Project API-REST exercise 4 done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project API-REST exercise 4 done" />
+    <MESSAGE value="Application.properties uploaded" />
+    <option name="LAST_COMMIT_MESSAGE" value="Application.properties uploaded" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest.ic" NAME="ProductControllerTest Coverage Results" MODIFIED="1745680397631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
-      <FILTER>org.fabridev.controller.*</FILTER>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest.ic" NAME="ProductControllerTest Coverage Results" MODIFIED="1746391389480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1745680418098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
-      <FILTER>org.fabridev.service.*</FILTER>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeCntrollerTest.ic" NAME="ProductTypeCntrollerTest Coverage Results" MODIFIED="1746426428650" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeServiceTest.ic" NAME="ProductTypeServiceTest Coverage Results" MODIFIED="1746391414288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1746379372633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.service.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest_getProductById_validId_returnsProductResponse.ic" NAME="ProductControllerTest.getProductById_validId_returnsProductResponse Coverage Results" MODIFIED="1745673136584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.fabridev.controller.*</FILTER>

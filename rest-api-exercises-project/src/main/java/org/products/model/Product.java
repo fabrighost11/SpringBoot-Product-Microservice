@@ -1,15 +1,17 @@
-package org.fabridev.model;
+package org.products.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "products")
+@Table(name = "PRODUCTS")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
     @Column(name = "name")
@@ -18,20 +20,22 @@ public class Product {
     private Double price;
     @Column(name = "stock")
     private Integer stock;
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private Type type;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false)
+    private ProductType productType;
 
     public Product() {
     }
 
-    public Product(Long id, String name, Double price, Integer stock, Type type) {
+    public Product(Long id, String name, Double price, Integer stock, ProductType productType) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.type = type;
+        this.productType = productType;
     }
+
 
     public Long getId() {
         return id;
@@ -65,12 +69,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public Type getType() {
-        return type;
+    public ProductType getProductType() {
+        return productType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
 
     @Override
@@ -79,16 +83,14 @@ public class Product {
     }
 
     @Override
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product that = (Product) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price)
-                && Objects.equals(stock, that.stock) && Objects.equals(type, that.type);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price) && Objects.equals(stock, product.stock) && Objects.equals(productType, product.productType);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(id,name,price,stock,type);
+    public int hashCode() {
+        return Objects.hash(id, name, price, stock, productType);
     }
 }

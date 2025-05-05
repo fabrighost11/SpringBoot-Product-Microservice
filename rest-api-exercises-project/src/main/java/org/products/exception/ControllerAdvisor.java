@@ -1,11 +1,10 @@
-package org.fabridev.exception;
+package org.products.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -24,6 +23,36 @@ public class ControllerAdvisor  {
         body.put("error", e.getClass().getSimpleName());
         body.put("message", e.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductTypeNotFoundException.class)
+    public ResponseEntity<Object>handleProductTypeNotFound(ProductTypeNotFoundException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.NOT_FOUND.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductTypeRelatedException.class)
+    public ResponseEntity<Object>handleProductTypeRelated(ProductTypeRelatedException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.CONFLICT.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object>handleIllegalArgument(IllegalArgumentException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.CONFLICT.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
