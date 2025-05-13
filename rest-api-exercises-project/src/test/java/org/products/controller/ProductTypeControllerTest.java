@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.products.api.userClient.UserClient;
 import org.products.dto.request.ProductTypeRequest;
 import org.products.dto.response.ProductTypeResponse;
+import org.products.dto.response.UserResponse;
+import org.products.exception.ResourceNotFoundException;
 import org.products.model.ProductType;
 import org.products.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,6 +41,9 @@ public class ProductTypeControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private UserClient userClient;
 
     @MockBean
     private ProductTypeService service;
@@ -81,20 +88,21 @@ public class ProductTypeControllerTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(4))
-                .andExpect(jsonPath("$[0]id").value(1))
-                .andExpect(jsonPath("$[0]name").value("HOME_APPLIANCE"));
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("HOME_APPLIANCE"));
 
     }
 
     @Test
     void addProductById_createProductTypeSuccessfully_returnProduct() throws Exception{
         //given
-        Long idProduct = 1L;
+        Long userId = 1L;
         ProductTypeResponse expected = productTypeResponse;
-        when(service.createProductType(any(ProductTypeRequest.class))).thenReturn(expected);
+        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","ADMIN"));
+        when(service.createProductType(eq(userId),any(ProductTypeRequest.class))).thenReturn(expected);
 
         //when
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/{userId}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productType)));
 
@@ -105,13 +113,28 @@ public class ProductTypeControllerTest {
     }
 
     @Test
+    void addProductById_userNotAdmin_returnException() throws Exception {
+        Long userId = 3L;
+        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","DEFAULT_USER"));
+        when(service.createProductType(eq(userId),any(ProductTypeRequest.class))).thenThrow(new IllegalArgumentException("Forbidden access, only admin"));
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/" + userId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productTypeRequest))
+        );
+
+        result.andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Forbidden access, only admin"));
+    }
+
+    @Test
     void addProductById_createProductTypeWithEmptyName_returnException() throws Exception{
         //given
-        Long idProduct = 4L;
+        Long userId = 1L;
         productTypeRequest.setName("");
-
+        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","DEFAULT_USER"));
         //when
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type")
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/" + userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productTypeRequest)));
 

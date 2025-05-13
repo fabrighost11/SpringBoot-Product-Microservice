@@ -4,23 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Application.properties uploaded">
+    <list default="true" id="64cf9017-48e4-4ab5-8628-961952cc0787" name="Changes" comment="Entity productType ready to replace the enum">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/response/PurchaseResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/dto/ProductDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/ControllerAdvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/exception/ControllerAdvisor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/InvalidProductException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/exception/ProductNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/exception/ProductNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/model/Type.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/response/ProductResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/fabridev/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/fabridev/controller/ProductControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/fabridev/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/service/ProductServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductTypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/controller/ProductTypeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductTypeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/request/ProductTypeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/dto/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/dto/response/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/exception/ControllerAdvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/exception/ControllerAdvisor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/products/service/ProductTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/products/service/ProductTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductTypeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/controller/ProductTypeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/products/service/ProductServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/service/ProductServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/products/service/ProductTypeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/products/service/ProductTypeServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,23 +81,32 @@
     "JUnit.ProductControllerTest.addProductById_createProductWithPriceLowerThanZero_returnException.executor": "Run",
     "JUnit.ProductControllerTest.addProductById_createProduct_returnProduct.executor": "Run",
     "JUnit.ProductControllerTest.addProduct_addProductNullName_returnException.executor": "Run",
+    "JUnit.ProductControllerTest.decreaseStock_decreaseStockSuccessfully_returnStock.executor": "Run",
     "JUnit.ProductControllerTest.deleteProduct_deleteProductById_returnVoid.executor": "Run",
     "JUnit.ProductControllerTest.deleteProduct_deleteProductThatNotExists_returnException.executor": "Run",
     "JUnit.ProductControllerTest.executor": "Coverage",
     "JUnit.ProductControllerTest.findAll_findAllProducts_returnProductList.executor": "Run",
     "JUnit.ProductControllerTest.getProductById_validId_returnsProductResponse.executor": "Run",
+    "JUnit.ProductControllerTest.getStock_findStockSuccessfully_returnStock.executor": "Run",
     "JUnit.ProductControllerTest.updateProduct_updatedProductInfo_returnProduct.executor": "Run",
+    "JUnit.ProductControllerTest.updateStock_updateStockSuccessfully_returnStock.executor": "Run",
+    "JUnit.ProductServiceTest.decreaseStock_notEnoughStock_throwsResourceNotFoundException.executor": "Run",
+    "JUnit.ProductServiceTest.decreaseStock_reduceStockSuccessfully_returnStock.executor": "Run",
     "JUnit.ProductServiceTest.deleteProduct_deleteProductThatNoExists_returnException.executor": "Run",
     "JUnit.ProductServiceTest.deleteProduct_deleteProduct_returnTrue.executor": "Run",
     "JUnit.ProductServiceTest.executor": "Coverage",
     "JUnit.ProductServiceTest.findAll_findAllProductsInTheList_returnProductList.executor": "Run",
     "JUnit.ProductServiceTest.findProductById_findProductById_returnProductData.executor": "Run",
     "JUnit.ProductServiceTest.findProductById_productIdNotFound_returnException.executor": "Run",
+    "JUnit.ProductServiceTest.getStock_getStockSuccessfully_returnStock.executor": "Run",
     "JUnit.ProductServiceTest.save_createProducts_returnCorrectProductResponse.executor": "Run",
     "JUnit.ProductServiceTest.save_createProducts_returnNull.executor": "Run",
     "JUnit.ProductServiceTest.save_createProducts_returnProductCreated.executor": "Run",
     "JUnit.ProductServiceTest.updateProduct_updateProductWithNoExistingId_returnProductNotFoundException.executor": "Run",
     "JUnit.ProductServiceTest.updateProduct_updateProduct_returnProductUpdated.executor": "Run",
+    "JUnit.ProductServiceTest.updatedStock_badRequest_throwsProductNotFoundException.executor": "Run",
+    "JUnit.ProductServiceTest.updatedStock_updateStockSuccessfully_returnStock.executor": "Coverage",
+    "JUnit.ProductServiceTest.updatedStock_userNotFound_throwsProductNotFoundException.executor": "Run",
     "JUnit.ProductTypeCntrollerTest.addProductById_createProductWithEmptyName_returnException.executor": "Run",
     "JUnit.ProductTypeCntrollerTest.addProductById_createProductWithNullType_returnException.executor": "Run",
     "JUnit.ProductTypeCntrollerTest.addProductById_createProduct_returnProduct.executor": "Run",
@@ -107,8 +115,18 @@
     "JUnit.ProductTypeCntrollerTest.findAll_findAllProducts_returnProductList.executor": "Run",
     "JUnit.ProductTypeCntrollerTest.getProductById_validId_returnsProductResponse.executor": "Run",
     "JUnit.ProductTypeCntrollerTest.updateProductType_updatedProductTypeInfo_returnProduct.executor": "Run",
+    "JUnit.ProductTypeControllerTest.addProductById_createProductTypeSuccessfully_returnProduct.executor": "Run",
+    "JUnit.ProductTypeControllerTest.addProductById_createProductTypeWithEmptyName_returnException.executor": "Run",
+    "JUnit.ProductTypeControllerTest.addProductById_userNotAdmin_returnException.executor": "Run",
+    "JUnit.ProductTypeControllerTest.deleteProductType_deleteProductTypeById_returnVoid.executor": "Run",
+    "JUnit.ProductTypeControllerTest.executor": "Coverage",
+    "JUnit.ProductTypeControllerTest.findAll_findAllProductTypes_returnProductList.executor": "Run",
+    "JUnit.ProductTypeControllerTest.getProductTypeById_validId_returnsProductTypeResponse.executor": "Run",
+    "JUnit.ProductTypeControllerTest.updateProductType_updatedProductTypeInfo_returnProduct.executor": "Run",
+    "JUnit.ProductTypeServiceTest.createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException.executor": "Run",
     "JUnit.ProductTypeServiceTest.createProductType_createTypeNameExists_returnNameExistsException.executor": "Run",
     "JUnit.ProductTypeServiceTest.createProductType_createTypeSuccessfully_returnTypeCreated.executor": "Run",
+    "JUnit.ProductTypeServiceTest.createProductType_userIdNull_returnUserIdNullException.executor": "Run",
     "JUnit.ProductTypeServiceTest.deleteById_deleteTypeIdNotFound_returnException.executor": "Run",
     "JUnit.ProductTypeServiceTest.deleteById_deleteTypeSuccessfully_returnVoid.executor": "Run",
     "JUnit.ProductTypeServiceTest.deleteById_existsProductRelatedToType_returnException.executor": "Run",
@@ -119,14 +137,35 @@
     "JUnit.ProductTypeServiceTest.updateProductType_updateTypeNameExistsAlready_returnException.executor": "Run",
     "JUnit.ProductTypeServiceTest.updateProductType_updateTypeSuccessfullyWithSameName_returnProductTypeResponse.executor": "Run",
     "JUnit.ProductTypeServiceTest.updateProductType_updateTypeSuccessfully_returnProductTypeResponse.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "!4 on feature/hu04-jpa",
+    "Spring Boot.MainApplication.executor": "Run",
+    "git-widget-placeholder": "feature/hu04-jpa",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/user-microservice-exercise-5/user-microservice-exercise-5/pom.xml"
+    "last_opened_file_path": "C:/Users/fsbiancotti/Documents/Gitlab/rest-api-exercises/rest-api-exercises-project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.ProductControllerTest">
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.products.dto.response" />
+      <recent name="org.products.exception" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ProductTypeServiceTest">
     <configuration name="ProductControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-api-exercises-project" />
       <extension name="coverage">
@@ -137,6 +176,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.products.controller" />
       <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.products.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.products.service" />
+      <option name="MAIN_CLASS_NAME" value="org.products.service.ProductServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -157,38 +211,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductTypeControllerTest.deleteProductType_deleteProductTypeById_returnVoid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rest-api-exercises-project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.products.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.products.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductTypeControllerTest" />
-      <option name="METHOD_NAME" value="deleteProductType_deleteProductTypeById_returnVoid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProductTypeControllerTest.updateProductType_updatedProductTypeInfo_returnProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rest-api-exercises-project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.products.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.products.controller" />
-      <option name="MAIN_CLASS_NAME" value="org.products.controller.ProductTypeControllerTest" />
-      <option name="METHOD_NAME" value="updateProductType_updatedProductTypeInfo_returnProduct" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ProductTypeServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rest-api-exercises-project" />
       <extension name="coverage">
@@ -204,15 +226,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ProductTypeServiceTest.createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.products.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.products.service" />
+      <option name="MAIN_CLASS_NAME" value="org.products.service.ProductTypeServiceTest" />
+      <option name="METHOD_NAME" value="createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="rest-api-exercises-project" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.products.MainApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ProductTypeControllerTest" />
         <item itemvalue="JUnit.ProductTypeServiceTest" />
+        <item itemvalue="JUnit.ProductTypeServiceTest.createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException" />
+        <item itemvalue="JUnit.ProductServiceTest" />
         <item itemvalue="JUnit.ProductControllerTest" />
-        <item itemvalue="JUnit.ProductTypeControllerTest.deleteProductType_deleteProductTypeById_returnVoid" />
-        <item itemvalue="JUnit.ProductTypeControllerTest.updateProductType_updatedProductTypeInfo_returnProduct" />
+        <item itemvalue="JUnit.ProductTypeControllerTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -222,6 +275,14 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1744715033996</updated>
+      <workItem from="1746539027517" duration="1423000" />
+      <workItem from="1746598250224" duration="9176000" />
+      <workItem from="1746890282925" duration="4297000" />
+      <workItem from="1746971900443" duration="10832000" />
+      <workItem from="1747030594226" duration="2688000" />
+      <workItem from="1747033823417" duration="11732000" />
+      <workItem from="1747076208823" duration="8205000" />
+      <workItem from="1747118583399" duration="4487000" />
     </task>
     <task id="LOCAL-00001" summary="Project API-REST exercise 2 uploaded">
       <option name="closed" value="true" />
@@ -247,30 +308,62 @@
       <option name="project" value="LOCAL" />
       <updated>1745681198123</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Entity productType ready to replace the enum">
+      <option name="closed" value="true" />
+      <created>1746429862558</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746429862558</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project API-REST exercise 2 uploaded" />
     <MESSAGE value="Project API-REST exercise 4 done" />
     <MESSAGE value="Application.properties uploaded" />
-    <option name="LAST_COMMIT_MESSAGE" value="Application.properties uploaded" />
+    <MESSAGE value="Entity productType ready to replace the enum" />
+    <option name="LAST_COMMIT_MESSAGE" value="Entity productType ready to replace the enum" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/products/api/userClient/UserClient.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest.ic" NAME="ProductControllerTest Coverage Results" MODIFIED="1746391389480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
-      <FILTER>org.products.controller.*</FILTER>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest_updatedStock_updateStockSuccessfully_returnStock.ic" NAME="ProductServiceTest.updatedStock_updateStockSuccessfully_returnStock Coverage Results" MODIFIED="1747080722732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.service.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeCntrollerTest.ic" NAME="ProductTypeCntrollerTest Coverage Results" MODIFIED="1746426428650" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.products.controller.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeServiceTest.ic" NAME="ProductTypeServiceTest Coverage Results" MODIFIED="1746391414288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
-      <FILTER>org.products.service.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1746379372633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
-      <FILTER>org.products.service.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest_getProductById_validId_returnsProductResponse.ic" NAME="ProductControllerTest.getProductById_validId_returnsProductResponse Coverage Results" MODIFIED="1745673136584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.fabridev.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeControllerTest_getProductTypeById_validId_returnsProductTypeResponse.ic" NAME="ProductTypeControllerTest.getProductTypeById_validId_returnsProductTypeResponse Coverage Results" MODIFIED="1747120532907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeServiceTest.ic" NAME="ProductTypeServiceTest Coverage Results" MODIFIED="1747123037418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductTypeControllerTest.ic" NAME="ProductTypeControllerTest Coverage Results" MODIFIED="1747122966503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductServiceTest.ic" NAME="ProductServiceTest Coverage Results" MODIFIED="1747123017680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/rest_api_exercises_project$ProductControllerTest.ic" NAME="ProductControllerTest Coverage Results" MODIFIED="1747122994886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.products.controller.*</FILTER>
     </SUITE>
   </component>
 </project>

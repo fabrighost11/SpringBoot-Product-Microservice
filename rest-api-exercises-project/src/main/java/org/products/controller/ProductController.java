@@ -1,6 +1,7 @@
 package org.products.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/product")
@@ -32,7 +34,7 @@ public class ProductController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) throws ProductNotFoundException{
-         return new ResponseEntity<>(service.findProductById(id), HttpStatus.OK);
+         return new ResponseEntity<>(service.getProductById(id), HttpStatus.OK);
     }
 
 
@@ -54,7 +56,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping
-    public ResponseEntity<ProductResponse> addProductById(@Valid @RequestBody ProductRequest productRequest) throws MethodArgumentNotValidException {
+    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productRequest) throws MethodArgumentNotValidException {
         return new ResponseEntity<>(service.createProduct(productRequest), HttpStatus.CREATED);
     }
 
@@ -79,6 +81,23 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws ProductNotFoundException {
         service.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/stock")
+    public ResponseEntity<Integer> getStock(@PathVariable Long id) throws ProductNotFoundException {
+        return new ResponseEntity<>(service.getStock(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("stock/{id}/{userId}")
+    public ResponseEntity<Void> updateStock(@PathVariable Long id, @PathVariable Long userId,   @RequestBody Map<String, Integer> body) throws ProductNotFoundException {
+        service.updatedStock(id, userId, body.get("stock"));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/stock/decrease")
+    public ResponseEntity<Void> decreaseStock(@PathVariable Long id, @RequestBody Map<String, Integer> body) throws ProductNotFoundException {
+        service.decreaseStock(id,body.get("quantity"));
         return ResponseEntity.noContent().build();
     }
 

@@ -18,7 +18,7 @@ public class ProductRequest {
     private String name;
 
     @NotNull(message = "Price of the product cant be null.")
-    @Positive(message = "Price of the product cant be lower than zero.")
+    @Positive(message = "Price of the product cant zero or lower.")
     @Schema(description = "Price of the product", example = "250.99")
     private Double price;
 
@@ -29,16 +29,16 @@ public class ProductRequest {
 
     @NotNull(message = "Type of product cant be null.")
     @Schema(description = "Type of product", example = "HOME_APPLIANCE")
-    private Long type;
+    private Long productTypeId;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(String name, Double price, Integer stock, Long type) {
+    public ProductRequest(String name, Double price, Integer stock, Long productTypeId) {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.type = type;
+        this.productTypeId = productTypeId;
     }
 
     public Double getPrice() {
@@ -65,12 +65,12 @@ public class ProductRequest {
         this.stock = stock;
     }
 
-    public Long getType() {
-        return type;
+    public Long getProductTypeId() {
+        return productTypeId;
     }
 
-    public void setType(Long type) {
-        this.type = type;
+    public void setProductTypeId(Long productTypeId) {
+        this.productTypeId = productTypeId;
     }
 
     @Override
@@ -79,11 +79,11 @@ public class ProductRequest {
         if (!(o instanceof ProductRequest)) return false;
         ProductRequest that = (ProductRequest) o;
         return Objects.equals(name, that.name) && Objects.equals(price, that.price)
-                && Objects.equals(stock, that.stock) && Objects.equals(type, that.type);
+                && Objects.equals(stock, that.stock) && Objects.equals(productTypeId, that.productTypeId);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(name,price,stock,type);
+        return Objects.hash(name,price,stock,productTypeId);
     }
 }

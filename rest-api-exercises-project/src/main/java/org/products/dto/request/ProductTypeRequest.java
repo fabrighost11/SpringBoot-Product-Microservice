@@ -1,7 +1,6 @@
 package org.products.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.products.model.Product;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;

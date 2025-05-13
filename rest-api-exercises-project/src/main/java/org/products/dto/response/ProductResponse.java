@@ -19,18 +19,22 @@ public class ProductResponse {
     @Schema(description = "Stock of the product", example = "38")
     private Integer stock;
 
+    @Schema(description = "Id of the Type of product", example = "1")
+    private Long productTypeId;
+
     @Schema(description = "Type of product", example = "TECHNOLOGICAL")
-    private String type;
+    private String productTypeName;
 
     public ProductResponse() {
     }
 
-    public ProductResponse(Long id, String name, Double price, Integer stock, String type) {
+    public ProductResponse(Long id, String name, Double price, Integer stock, Long productTypeId,String productTypeName) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.type = type;
+        this.productTypeId = productTypeId;
+        this.productTypeName = productTypeName;
     }
 
 
@@ -66,25 +70,31 @@ public class ProductResponse {
         this.stock = stock;
     }
 
-    public String getType() {
-        return type;
+    public Long getProductTypeId() {
+        return productTypeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setProductTypeId(Long productTypeId) {
+        this.productTypeId = productTypeId;
+    }
+
+    public String getProductTypeName() {
+        return productTypeName;
+    }
+
+    public void setProductTypeName(String productTypeName) {
+        this.productTypeName = productTypeName;
     }
 
     @Override
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (!(o instanceof ProductResponse)) return false;
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
         ProductResponse that = (ProductResponse) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price)
-                && Objects.equals(stock, that.stock) /*&& Objects.equals(type, that.type)*/;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(stock, that.stock) && Objects.equals(productTypeId, that.productTypeId) && Objects.equals(productTypeName, that.productTypeName);
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(id,name,price,stock/*,type*/);
+    public int hashCode() {
+        return Objects.hash(id, name, price, stock, productTypeId, productTypeName);
     }
 }

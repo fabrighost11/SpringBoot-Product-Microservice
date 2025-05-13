@@ -55,6 +55,16 @@ public class ControllerAdvisor  {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object>handleResourceNotFound(ResourceNotFoundException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.NOT_FOUND.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException e){
         Map<String, Object> body = new LinkedHashMap<>();

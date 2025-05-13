@@ -1,7 +1,11 @@
 package org.products.service;
 
+import org.mockito.Spy;
+import org.products.api.userClient.UserClient;
 import org.products.dto.request.ProductRequest;
+import org.products.dto.response.UserResponse;
 import org.products.exception.ProductNotFoundException;
+import org.products.exception.ResourceNotFoundException;
 import org.products.model.Product;
 import org.products.model.ProductType;
 import org.products.repository.ProductRepository;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -31,20 +36,25 @@ public class ProductServiceTest {
     @Mock
     private ProductTypeRepository productTypeRepository;
 
+    @Mock
+    private UserClient userClient;
+
     @InjectMocks
+    @Spy
     private ProductService service;
 
     private ProductType productType;
     private Product product;
     private ProductRequest productRequest;
     private ProductResponse productResponse;
+    private UserResponse userResponse;
 
     @BeforeEach
     void setUp() {
         productType = new ProductType(3L,"TECHNOLOGICAL");
        product = new Product(1L,"Headphone",64.0,67, productType);
        productRequest = new ProductRequest("Headphone", 64.0, 67,productType.getId());
-       productResponse = new ProductResponse(1L,"Headphone", 64.0, 67,productType.getName());
+       productResponse = new ProductResponse(1L,"Headphone", 64.0, 67, productType.getId(), productType.getName());
 
 
     }
@@ -57,7 +67,7 @@ public class ProductServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         //when
-        ProductResponse actual = service.findProductById(productId);
+        ProductResponse actual = service.getProductById(productId);
 
         //then
         Assertions.assertEquals(expected,actual);
@@ -74,7 +84,7 @@ public class ProductServiceTest {
         //when
         ProductNotFoundException actualException = assertThrows(
                 ProductNotFoundException.class,
-                () -> service.findProductById(idNonExistent)
+                () -> service.getProductById(idNonExistent)
         );
 
         //then
@@ -97,7 +107,8 @@ public class ProductServiceTest {
         Assertions.assertEquals(expected.get(0).getName(),actual.get(0).getName());
         Assertions.assertEquals(expected.get(0).getPrice(),actual.get(0).getPrice());
         Assertions.assertEquals(expected.get(0).getStock(),actual.get(0).getStock());
-        Assertions.assertEquals(expected.get(0).getType(),actual.get(0).getType());
+        Assertions.assertEquals(expected.get(0).getProductTypeId(),actual.get(0).getProductTypeId());
+        Assertions.assertEquals(expected.get(0).getProductTypeName(),actual.get(0).getProductTypeName());
 
     }
 
@@ -136,7 +147,8 @@ public class ProductServiceTest {
         Assertions.assertNotEquals(expected.getName(), actual.getName());
         Assertions.assertNotEquals(expected.getPrice(), actual.getPrice());
         Assertions.assertNotEquals(expected.getStock(), actual.getStock());
-        Assertions.assertNotEquals(expected.getType(), actual.getType());
+        Assertions.assertNotEquals(expected.getProductTypeId(), actual.getProductTypeId());
+        Assertions.assertNotEquals(expected.getProductTypeName(), actual.getProductTypeName());
     }
 
     @Test
@@ -149,7 +161,7 @@ public class ProductServiceTest {
         //when
         ProductNotFoundException actualException = assertThrows(
                 ProductNotFoundException.class,
-                () -> service.findProductById(idNonExistent)
+                () -> service.getProductById(idNonExistent)
         );
 
         //then
@@ -201,7 +213,8 @@ public class ProductServiceTest {
         Assertions.assertEquals(productResponse.getName(),actual.getName());
         Assertions.assertEquals(productResponse.getPrice(),actual.getPrice());
         Assertions.assertEquals(productResponse.getStock(),actual.getStock());
-        Assertions.assertEquals(productResponse.getType(),actual.getType());
+        Assertions.assertEquals(productResponse.getProductTypeId(),actual.getProductTypeId());
+        Assertions.assertEquals(productResponse.getProductTypeName(),actual.getProductTypeName());
     }
 
     @Test
@@ -215,6 +228,92 @@ public class ProductServiceTest {
 
         //then
         Assertions.assertNull(actual);
+    }
+
+    @Test
+    void getStock_getStockSuccessfully_returnStock() throws Exception{
+        Long idProduct = 1L;
+        product.setStock(77);
+        Integer expectedStock = 77;
+        when(productRepository.findById(idProduct)).thenReturn(Optional.of(product));
+
+        Integer actualStock = service.getStock(idProduct);
+
+        Assertions.assertEquals(expectedStock, actualStock);
+        verify(productRepository).findById(idProduct);
+    }
+
+    @Test
+    void decreaseStock_reduceStockSuccessfully_returnStock() throws Exception{
+        Long idProduct = 1L;
+        Integer expectedStock = 70;
+        Integer quantity = 7;
+        product.setStock(77);
+
+        when(productRepository.findById(idProduct)).thenReturn(Optional.of(product));
+
+        service.decreaseStock(idProduct,quantity);
+
+        Assertions.assertEquals(expectedStock,product.getStock());
+        verify(productRepository).save(product);
+    }
+
+    @Test
+    void decreaseStock_notEnoughStock_returnResourceNotFoundException() {
+        Long productId = 2L;
+        String expected = "Not enough stock";
+        Integer quantity = 10;
+        product.setStock(7);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+
+        ResourceNotFoundException actual = assertThrows(ResourceNotFoundException.class, () ->
+                service.decreaseStock(productId, quantity));
+
+        Assertions.assertEquals(expected,actual.getMessage());
+    }
+
+    @Test
+    void updatedStock_updateStockSuccessfully_returnStock() throws Exception{
+        Long userId = 1L;
+        Long idProduct = 1L;
+        Integer newStock = 10;
+        Integer expectedStock = 77;
+        userResponse = new UserResponse(1L,"gabriel","gabriel@gmail.com","ADMIN");
+        when(userClient.getUserById(userId)).thenReturn(userResponse);
+        when(productRepository.findById(idProduct)).thenReturn(Optional.of(product));
+
+        service.updatedStock(idProduct, userId, newStock);
+
+        assertEquals(expectedStock, product.getStock());
+    }
+
+    @Test
+    void updatedStock_userNotFound_throwsProductNotFoundException() {
+        Long productId = 1L;
+        Long userId = 999L;
+        Integer newStock = 20;
+        String expected = "Product with this ID not found.";
+
+        when(userClient.getUserById(userId)).thenReturn(null);
+
+        ProductNotFoundException actual =  assertThrows(ProductNotFoundException.class, () ->
+                service.updatedStock(productId, userId, newStock));
+
+        Assertions.assertEquals(expected,actual.getMessage());
+    }
+
+    @Test
+    void updatedStock_badRequest_throwsProductNotFoundException() {
+        Long productId = null;
+        Long userId = null;
+        Integer newStock = null;
+        String expected = "id, userId or Stock quantity cannot be null";
+
+        IllegalArgumentException actual =  assertThrows(IllegalArgumentException.class, () ->
+                service.updatedStock(productId, userId, newStock));
+
+        Assertions.assertEquals(expected,actual.getMessage());
     }
 }
 

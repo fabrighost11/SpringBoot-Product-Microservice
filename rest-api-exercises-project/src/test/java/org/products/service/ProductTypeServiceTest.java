@@ -7,10 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.products.api.userClient.UserClient;
 import org.products.dto.request.ProductTypeRequest;
 import org.products.dto.response.ProductTypeResponse;
+import org.products.dto.response.UserResponse;
 import org.products.exception.ProductTypeNotFoundException;
 import org.products.exception.ProductTypeRelatedException;
+import org.products.exception.ResourceNotFoundException;
 import org.products.model.ProductType;
 import org.products.repository.ProductRepository;
 import org.products.repository.ProductTypeRepository;
@@ -31,6 +34,9 @@ public class ProductTypeServiceTest {
     private ProductTypeRepository productTypeRepository;
 
     @Mock
+    private UserClient userClient;
+
+    @Mock
     private ProductRepository productRepository;
 
     @InjectMocks
@@ -39,12 +45,17 @@ public class ProductTypeServiceTest {
     private ProductType productType;
     private ProductTypeRequest productTypeRequest;
     private ProductTypeResponse productTypeResponse;
+    private UserResponse userResponse;
 
     @BeforeEach
     void setUp(){
+
         productType = new ProductType(1L,"HOME_APPLIANCE");
         productTypeRequest = new ProductTypeRequest("HOME_APPLIANCE");
         productTypeResponse = new ProductTypeResponse(1L,"HOME_APPLIANCE");
+
+        userResponse = new UserResponse();
+        userResponse.setId(1L); userResponse.setName("User Name"); userResponse.setEmail("User@Email.com"); userResponse.setRole("ADMIN");
     }
 
     @Test
@@ -95,11 +106,14 @@ public class ProductTypeServiceTest {
     @Test
     void createProductType_createTypeSuccessfully_returnTypeCreated(){
         //given
+        Long userId = 1L;
+
+        when(userClient.getUserById(userId)).thenReturn(userResponse);
         when(productTypeRepository.findByName(anyString())).thenReturn(Optional.empty());
         when(productTypeRepository.save(any(ProductType.class))).thenReturn(productType);
 
         //when
-        ProductTypeResponse actual = service.createProductType(productTypeRequest);
+        ProductTypeResponse actual = service.createProductType(userId, productTypeRequest);
 
         //then
         Assertions.assertEquals(1,actual.getId());
@@ -109,14 +123,47 @@ public class ProductTypeServiceTest {
     @Test
     void createProductType_createTypeNameExists_returnNameExistsException(){
         //given
+        Long userId = 2L;
         String productTypeName = "HOME_APPLIANCE";
         String expected = "This product type already exists.";
+        when(userClient.getUserById(userId)).thenReturn(userResponse);
         when(productTypeRepository.findByName(productTypeName)).thenReturn(Optional.of(productType));
 
         //when
         IllegalArgumentException actualException = assertThrows(
                 IllegalArgumentException.class,
-                () -> service.createProductType(productTypeRequest)
+                () -> service.createProductType(userId, productTypeRequest)
+        );
+
+        //then
+        Assertions.assertEquals(expected,actualException.getMessage());
+    }
+
+    @Test
+    void createProductType_userIdNull_returnUserIdNullException(){
+        Long userId = null;
+        String expected = "User not found";
+        when(userClient.getUserById(userId)).thenReturn(null);
+        IllegalArgumentException actualException = assertThrows(
+                IllegalArgumentException.class,
+                () -> service.createProductType(userId, productTypeRequest)
+        );
+
+        Assertions.assertEquals(expected,actualException.getMessage());
+    }
+
+    @Test
+    void createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException(){
+        //given
+        Long userId = 2L;
+        String expected = "Forbidden access, only admin";
+        userResponse.setRole("DEFAULT_USER");
+        when(userClient.getUserById(userId)).thenReturn(userResponse);
+
+        //when
+        IllegalArgumentException actualException = assertThrows(
+                IllegalArgumentException.class,
+                () -> service.createProductType(userId, productTypeRequest)
         );
 
         //then

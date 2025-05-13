@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/product-type")
@@ -53,9 +54,9 @@ public class ProductTypeController {
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
-    @PostMapping
-    public ResponseEntity<ProductTypeResponse> addProductType(@Valid @RequestBody ProductTypeRequest productTypeRequest) throws MethodArgumentNotValidException {
-        return new ResponseEntity<>(service.createProductType(productTypeRequest), HttpStatus.CREATED);
+    @PostMapping("/{userId}")
+    public ResponseEntity<ProductTypeResponse> addProductType(@PathVariable Long userId, @Valid @RequestBody ProductTypeRequest productTypeRequest) throws MethodArgumentNotValidException {
+        return new ResponseEntity<>(service.createProductType(userId,productTypeRequest), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a product type.", description = "Update an existing product type by its ID")
