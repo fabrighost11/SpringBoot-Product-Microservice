@@ -3,6 +3,7 @@ package org.products.service;
 import org.products.api.userClient.UserClient;
 import org.products.dto.request.ProductRequest;
 import org.products.dto.response.UserResponse;
+import org.products.exception.ForbiddenAccessException;
 import org.products.exception.ProductNotFoundException;
 import org.products.exception.ResourceNotFoundException;
 import org.products.model.Product;
@@ -10,6 +11,7 @@ import org.products.model.ProductType;
 import org.products.repository.ProductRepository;
 import org.products.repository.ProductTypeRepository;
 import org.products.dto.response.ProductResponse;
+import org.products.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,10 +28,13 @@ public class ProductService {
 
     private final UserClient userClient;
 
-    public ProductService(ProductRepository productRepository, ProductTypeRepository productTypeRepository, UserClient userClient) {
+    private final JwtUtil jwtUtil;
+
+    public ProductService(ProductRepository productRepository, ProductTypeRepository productTypeRepository, UserClient userClient, JwtUtil jwtUtil) {
         this.productRepository = productRepository;
         this.productTypeRepository = productTypeRepository;
         this.userClient = userClient;
+        this.jwtUtil = jwtUtil;
     }
 
     public ProductResponse getProductById(Long id) throws ProductNotFoundException{
@@ -91,21 +96,23 @@ public class ProductService {
         return findProduct(id).getStock();
     }
 
-    public void updatedStock(Long id, Long userId, Integer newStock) throws ProductNotFoundException {
+    public void updatedStock(Long id, Long userId, Integer newStock, String token) throws ProductNotFoundException {
 
         if(id == null || userId == null || newStock == null) throw new IllegalArgumentException("id, userId or Stock quantity cannot be null");
 
-        if (userClient.getUserById(userId) == null) throw new ProductNotFoundException();
+        if (userClient.getUserById(userId, token) == null) throw new ProductNotFoundException();
 
-        if (!userClient.getUserById(userId).getRole().equals("ADMIN")) throw new ResourceNotFoundException("Forbidden access, only admin");
+        if (!userClient.getUserById(userId, token).getRole().equals("ADMIN")) throw new ForbiddenAccessException("Forbidden access, only admin");
 
         Product product = findProduct(id);
         product.setStock(newStock + product.getStock());
         productRepository.save(product);
     }
 
-    public void decreaseStock(Long id, Integer quantity) throws ResourceNotFoundException, ProductNotFoundException {
+    public void decreaseStock(Long id, Integer quantity, String token) throws ResourceNotFoundException, ProductNotFoundException {
         Product product = findProduct(id);
+
+        jwtUtil.validateToken(token);
 
         if(product.getStock() < quantity) throw new ResourceNotFoundException("Not enough stock");
 

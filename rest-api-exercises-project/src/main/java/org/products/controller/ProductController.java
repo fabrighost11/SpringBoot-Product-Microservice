@@ -12,6 +12,7 @@ import org.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productRequest) throws MethodArgumentNotValidException {
         return new ResponseEntity<>(service.createProduct(productRequest), HttpStatus.CREATED);
@@ -67,6 +69,7 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) throws ProductNotFoundException, MethodArgumentNotValidException{
         return new ResponseEntity<>(service.updateProduct(id, productRequest), HttpStatus.OK);
@@ -78,6 +81,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws ProductNotFoundException {
         service.deleteProduct(id);
@@ -88,16 +92,16 @@ public class ProductController {
     public ResponseEntity<Integer> getStock(@PathVariable Long id) throws ProductNotFoundException {
         return new ResponseEntity<>(service.getStock(id), HttpStatus.OK);
     }
-
+    @Secured("ROLE_ADMIN")
     @PatchMapping("stock/{id}/{userId}")
-    public ResponseEntity<Void> updateStock(@PathVariable Long id, @PathVariable Long userId,   @RequestBody Map<String, Integer> body) throws ProductNotFoundException {
-        service.updatedStock(id, userId, body.get("stock"));
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> updateStock(@PathVariable Long id, @PathVariable Long userId,   @RequestBody Map<String, Integer> body, @RequestHeader("Authorization") String token) throws ProductNotFoundException {
+        service.updatedStock(id, userId, body.get("stock"),token);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/stock/decrease")
-    public ResponseEntity<Void> decreaseStock(@PathVariable Long id, @RequestBody Map<String, Integer> body) throws ProductNotFoundException {
-        service.decreaseStock(id,body.get("quantity"));
+    public ResponseEntity<Void> decreaseStock(@PathVariable Long id, @RequestBody Map<String, Integer> body, @RequestHeader("Authorization") String token) throws ProductNotFoundException {
+        service.decreaseStock(id,body.get("quantity"), token);
         return ResponseEntity.noContent().build();
     }
 

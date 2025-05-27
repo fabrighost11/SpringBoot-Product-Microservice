@@ -46,11 +46,11 @@ public class ProductTypeService {
                 .collect(Collectors.toList());
     }
 
-    public ProductTypeResponse createProductType(Long userId ,ProductTypeRequest productTypeRequest) throws IllegalArgumentException{
+    public ProductTypeResponse createProductType(Long userId ,ProductTypeRequest productTypeRequest, String token) throws IllegalArgumentException{
 
-        if (userClient.getUserById(userId) == null) throw new IllegalArgumentException("User not found");
+        if (userClient.getUserById(userId,token) == null) throw new IllegalArgumentException("User not found");
 
-        if (!userClient.getUserById(userId).getRole().equals("ADMIN")) throw new IllegalArgumentException("Forbidden access, only admin");
+        if (!userClient.getUserById(userId,token).getRole().equals("ADMIN")) throw new IllegalArgumentException("Forbidden access, only admin");
 
         Optional<ProductType> existingProductType = productTypeRepository.findByName(productTypeRequest.getName());
 

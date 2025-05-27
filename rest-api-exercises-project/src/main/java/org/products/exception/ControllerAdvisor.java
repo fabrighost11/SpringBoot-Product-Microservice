@@ -65,6 +65,26 @@ public class ControllerAdvisor  {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Object>handleUnauthorized(UnauthorizedException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.UNAUTHORIZED.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenAccessException.class)
+    public ResponseEntity<Object>handleForbiddenAccess(ForbiddenAccessException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status",HttpStatus.FORBIDDEN.value());
+        body.put("error", e.getClass().getSimpleName());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException e){
         Map<String, Object> body = new LinkedHashMap<>();

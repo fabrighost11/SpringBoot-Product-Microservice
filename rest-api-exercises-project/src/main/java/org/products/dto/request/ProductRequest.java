@@ -1,6 +1,9 @@
 package org.products.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 import javax.validation.constraints.*;
@@ -9,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "DTO request to create and update a product")
 public class ProductRequest {
 
@@ -31,59 +36,4 @@ public class ProductRequest {
     @Schema(description = "Type of product", example = "HOME_APPLIANCE")
     private Long productTypeId;
 
-    public ProductRequest() {
-    }
-
-    public ProductRequest(String name, Double price, Integer stock, Long productTypeId) {
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.productTypeId = productTypeId;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Long getProductTypeId() {
-        return productTypeId;
-    }
-
-    public void setProductTypeId(Long productTypeId) {
-        this.productTypeId = productTypeId;
-    }
-
-    @Override
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (!(o instanceof ProductRequest)) return false;
-        ProductRequest that = (ProductRequest) o;
-        return Objects.equals(name, that.name) && Objects.equals(price, that.price)
-                && Objects.equals(stock, that.stock) && Objects.equals(productTypeId, that.productTypeId);
-    }
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(name,price,stock,productTypeId);
-    }
 }

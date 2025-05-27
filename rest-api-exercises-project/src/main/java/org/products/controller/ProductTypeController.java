@@ -12,6 +12,7 @@ import org.products.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,9 +55,10 @@ public class ProductTypeController {
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
+    @Secured("ROLE_ADMIN")
     @PostMapping("/{userId}")
-    public ResponseEntity<ProductTypeResponse> addProductType(@PathVariable Long userId, @Valid @RequestBody ProductTypeRequest productTypeRequest) throws MethodArgumentNotValidException {
-        return new ResponseEntity<>(service.createProductType(userId,productTypeRequest), HttpStatus.CREATED);
+    public ResponseEntity<ProductTypeResponse> addProductType(@PathVariable Long userId, @Valid @RequestBody ProductTypeRequest productTypeRequest,  @RequestHeader("Authorization") String token) throws MethodArgumentNotValidException {
+        return new ResponseEntity<>(service.createProductType(userId,productTypeRequest,token), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a product type.", description = "Update an existing product type by its ID")
@@ -65,6 +67,7 @@ public class ProductTypeController {
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<ProductTypeResponse> updateProductType(@PathVariable Long id, @Valid @RequestBody ProductTypeRequest productTypeRequest) throws ProductTypeNotFoundException, MethodArgumentNotValidException{
         return new ResponseEntity<>(service.updateProductType(id, productTypeRequest), HttpStatus.OK);
@@ -76,6 +79,7 @@ public class ProductTypeController {
             @ApiResponse(responseCode = "404", description = "Type not found."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProductType(@PathVariable Long id) throws ProductTypeNotFoundException, ProductTypeRelatedException {
         service.deleteProductType(id);
