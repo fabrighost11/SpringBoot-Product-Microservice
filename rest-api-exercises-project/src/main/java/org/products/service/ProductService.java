@@ -112,7 +112,7 @@ public class ProductService {
     public void decreaseStock(Long id, Integer quantity, String token) throws ResourceNotFoundException, ProductNotFoundException {
         Product product = findProduct(id);
 
-        jwtUtil.validateToken(token);
+//        jwtUtil.validateToken(token);
 
         if(product.getStock() < quantity) throw new ResourceNotFoundException("Not enough stock");
 

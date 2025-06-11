@@ -3,16 +3,12 @@ package org.products.service;
 import org.products.api.userClient.UserClient;
 import org.products.dto.request.ProductTypeRequest;
 import org.products.dto.response.ProductTypeResponse;
-import org.products.dto.response.UserResponse;
-import org.products.exception.ProductNotFoundException;
 import org.products.exception.ProductTypeNotFoundException;
 import org.products.exception.ProductTypeRelatedException;
-import org.products.exception.ResourceNotFoundException;
 import org.products.model.ProductType;
 import org.products.repository.ProductRepository;
 import org.products.repository.ProductTypeRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,21 +32,17 @@ public class ProductTypeService {
 
     public ProductTypeResponse findProductTypeById(Long id) throws ProductTypeNotFoundException {
         return convertProductTypeToProductTypeResponse(productTypeRepository.findById(id)
-                .orElseThrow(() -> new ProductTypeNotFoundException()));
+                .orElseThrow(ProductTypeNotFoundException::new));
     }
 
     public List<ProductTypeResponse> findAll(){
         return productTypeRepository.findAll()
                 .stream()
-                .map(productType -> convertProductTypeToProductTypeResponse(productType))
+                .map(this::convertProductTypeToProductTypeResponse)
                 .collect(Collectors.toList());
     }
 
-    public ProductTypeResponse createProductType(Long userId ,ProductTypeRequest productTypeRequest, String token) throws IllegalArgumentException{
-
-        if (userClient.getUserById(userId,token) == null) throw new IllegalArgumentException("User not found");
-
-        if (!userClient.getUserById(userId,token).getRole().equals("ADMIN")) throw new IllegalArgumentException("Forbidden access, only admin");
+    public ProductTypeResponse createProductType(ProductTypeRequest productTypeRequest, String token) throws IllegalArgumentException{
 
         Optional<ProductType> existingProductType = productTypeRepository.findByName(productTypeRequest.getName());
 

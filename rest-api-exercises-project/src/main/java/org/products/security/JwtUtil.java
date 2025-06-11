@@ -2,9 +2,11 @@ package org.products.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -74,12 +76,11 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
             return true;
-        } catch (JwtException e) {
-            System.out.println("Firma JWT no válida");
+        }catch (JwtException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Firma JWT no válida");
         } catch (Exception e) {
-            System.out.println("Token JWT no válido");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Token JWT no válido");
         }
-        return false;
     }
 
     private String encodeSecretKey(String secretKey) {

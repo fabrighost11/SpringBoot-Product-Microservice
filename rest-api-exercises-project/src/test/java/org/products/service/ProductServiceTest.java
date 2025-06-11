@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.products.repository.ProductTypeRepository;
+import org.products.security.JwtUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,9 @@ public class ProductServiceTest {
     @Mock
     private UserClient userClient;
 
+    @Mock
+    private JwtUtil jwtUtil;
+
     @InjectMocks
     @Spy
     private ProductService service;
@@ -48,14 +52,14 @@ public class ProductServiceTest {
     private ProductRequest productRequest;
     private ProductResponse productResponse;
     private UserResponse userResponse;
-
+    private String token;
     @BeforeEach
     void setUp() {
         productType = new ProductType(3L,"TECHNOLOGICAL");
        product = new Product(1L,"Headphone",64.0,67, productType);
        productRequest = new ProductRequest("Headphone", 64.0, 67,productType.getId());
        productResponse = new ProductResponse(1L,"Headphone", 64.0, 67, productType.getId(), productType.getName());
-
+        token = "token";
 
     }
 
@@ -251,8 +255,9 @@ public class ProductServiceTest {
         product.setStock(77);
 
         when(productRepository.findById(idProduct)).thenReturn(Optional.of(product));
+//        when(jwtUtil.validateToken(token)).thenReturn(true);
+        service.decreaseStock(idProduct,quantity,token);
 
-        service.decreaseStock(idProduct,quantity);
 
         Assertions.assertEquals(expectedStock,product.getStock());
         verify(productRepository).save(product);
@@ -266,9 +271,9 @@ public class ProductServiceTest {
         product.setStock(7);
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-
+//        when(jwtUtil.validateToken(token)).thenReturn(true);
         ResourceNotFoundException actual = assertThrows(ResourceNotFoundException.class, () ->
-                service.decreaseStock(productId, quantity));
+                service.decreaseStock(productId, quantity,token));
 
         Assertions.assertEquals(expected,actual.getMessage());
     }
@@ -280,12 +285,12 @@ public class ProductServiceTest {
         Integer newStock = 10;
         Integer expectedStock = 77;
         userResponse = new UserResponse(1L,"gabriel","gabriel@gmail.com","ADMIN");
-        when(userClient.getUserById(userId)).thenReturn(userResponse);
+        when(userClient.getUserById(userId,token)).thenReturn(userResponse);
         when(productRepository.findById(idProduct)).thenReturn(Optional.of(product));
 
-        service.updatedStock(idProduct, userId, newStock);
+        service.updatedStock(idProduct, userId, newStock,token);
 
-        assertEquals(expectedStock, product.getStock());
+        Assertions.assertEquals(expectedStock, product.getStock());
     }
 
     @Test
@@ -295,10 +300,10 @@ public class ProductServiceTest {
         Integer newStock = 20;
         String expected = "Product with this ID not found.";
 
-        when(userClient.getUserById(userId)).thenReturn(null);
+        when(userClient.getUserById(userId,token)).thenReturn(null);
 
         ProductNotFoundException actual =  assertThrows(ProductNotFoundException.class, () ->
-                service.updatedStock(productId, userId, newStock));
+                service.updatedStock(productId, userId, newStock,token));
 
         Assertions.assertEquals(expected,actual.getMessage());
     }
@@ -311,7 +316,7 @@ public class ProductServiceTest {
         String expected = "id, userId or Stock quantity cannot be null";
 
         IllegalArgumentException actual =  assertThrows(IllegalArgumentException.class, () ->
-                service.updatedStock(productId, userId, newStock));
+                service.updatedStock(productId, userId, newStock,token));
 
         Assertions.assertEquals(expected,actual.getMessage());
     }

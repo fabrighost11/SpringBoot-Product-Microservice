@@ -56,9 +56,9 @@ public class ProductTypeController {
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
     @Secured("ROLE_ADMIN")
-    @PostMapping("/{userId}")
-    public ResponseEntity<ProductTypeResponse> addProductType(@PathVariable Long userId, @Valid @RequestBody ProductTypeRequest productTypeRequest,  @RequestHeader("Authorization") String token) throws MethodArgumentNotValidException {
-        return new ResponseEntity<>(service.createProductType(userId,productTypeRequest,token), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<ProductTypeResponse> addProductType(@Valid @RequestBody ProductTypeRequest productTypeRequest,  @RequestHeader("Authorization") String token) throws MethodArgumentNotValidException {
+        return new ResponseEntity<>(service.createProductType(productTypeRequest,token), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update a product type.", description = "Update an existing product type by its ID")

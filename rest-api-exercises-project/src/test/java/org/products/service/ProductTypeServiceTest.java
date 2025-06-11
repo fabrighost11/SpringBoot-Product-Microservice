@@ -13,10 +13,10 @@ import org.products.dto.response.ProductTypeResponse;
 import org.products.dto.response.UserResponse;
 import org.products.exception.ProductTypeNotFoundException;
 import org.products.exception.ProductTypeRelatedException;
-import org.products.exception.ResourceNotFoundException;
 import org.products.model.ProductType;
 import org.products.repository.ProductRepository;
 import org.products.repository.ProductTypeRepository;
+import org.products.security.JwtUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +39,9 @@ public class ProductTypeServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private JwtUtil jwtUtil;
+
     @InjectMocks
     ProductTypeService service;
 
@@ -46,10 +49,11 @@ public class ProductTypeServiceTest {
     private ProductTypeRequest productTypeRequest;
     private ProductTypeResponse productTypeResponse;
     private UserResponse userResponse;
+    private String token;
 
     @BeforeEach
     void setUp(){
-
+        token = "token";
         productType = new ProductType(1L,"HOME_APPLIANCE");
         productTypeRequest = new ProductTypeRequest("HOME_APPLIANCE");
         productTypeResponse = new ProductTypeResponse(1L,"HOME_APPLIANCE");
@@ -108,12 +112,11 @@ public class ProductTypeServiceTest {
         //given
         Long userId = 1L;
 
-        when(userClient.getUserById(userId)).thenReturn(userResponse);
         when(productTypeRepository.findByName(anyString())).thenReturn(Optional.empty());
         when(productTypeRepository.save(any(ProductType.class))).thenReturn(productType);
 
         //when
-        ProductTypeResponse actual = service.createProductType(userId, productTypeRequest);
+        ProductTypeResponse actual = service.createProductType( productTypeRequest,token);
 
         //then
         Assertions.assertEquals(1,actual.getId());
@@ -126,44 +129,13 @@ public class ProductTypeServiceTest {
         Long userId = 2L;
         String productTypeName = "HOME_APPLIANCE";
         String expected = "This product type already exists.";
-        when(userClient.getUserById(userId)).thenReturn(userResponse);
+
         when(productTypeRepository.findByName(productTypeName)).thenReturn(Optional.of(productType));
 
         //when
         IllegalArgumentException actualException = assertThrows(
                 IllegalArgumentException.class,
-                () -> service.createProductType(userId, productTypeRequest)
-        );
-
-        //then
-        Assertions.assertEquals(expected,actualException.getMessage());
-    }
-
-    @Test
-    void createProductType_userIdNull_returnUserIdNullException(){
-        Long userId = null;
-        String expected = "User not found";
-        when(userClient.getUserById(userId)).thenReturn(null);
-        IllegalArgumentException actualException = assertThrows(
-                IllegalArgumentException.class,
-                () -> service.createProductType(userId, productTypeRequest)
-        );
-
-        Assertions.assertEquals(expected,actualException.getMessage());
-    }
-
-    @Test
-    void createProductType_createTypeInvalidUserNotAdmin_returnForbiddenException(){
-        //given
-        Long userId = 2L;
-        String expected = "Forbidden access, only admin";
-        userResponse.setRole("DEFAULT_USER");
-        when(userClient.getUserById(userId)).thenReturn(userResponse);
-
-        //when
-        IllegalArgumentException actualException = assertThrows(
-                IllegalArgumentException.class,
-                () -> service.createProductType(userId, productTypeRequest)
+                () -> service.createProductType( productTypeRequest,token)
         );
 
         //then

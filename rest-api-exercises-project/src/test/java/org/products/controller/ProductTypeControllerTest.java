@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -24,8 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,9 +51,11 @@ public class ProductTypeControllerTest {
     private ProductType productType;
     private ProductTypeResponse productTypeResponse;
     private ProductTypeRequest productTypeRequest;
+    private String token;
 
     @BeforeEach
     void setUp(){
+        token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6Im1hcmlvQGdtYWlsLmNvbSIsImV4cCI6MTc0OTEwNTQwMiwiaWF0IjoxNzQ4NTAwNjAyfQ.BLjmeVC7uG6JcEz70QNdH6VVzW4Ljc7YHDr9Vy8jxFw";
         productType = new ProductType(1L,"HOME_APPLIANCE");
         productTypeResponse = new ProductTypeResponse(1L,"HOME_APPLIANCE");
         productTypeRequest = new ProductTypeRequest("HOME_APPLIANCE");
@@ -67,7 +69,8 @@ public class ProductTypeControllerTest {
         Mockito.when(service.findProductTypeById(idProduct)).thenReturn(productTypeResponse);
 
         // When
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/product-type/{id}", idProduct));
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/product-type/{id}", idProduct)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token));
 
         // Then
         result.andExpect(status().isOk())
@@ -83,7 +86,8 @@ public class ProductTypeControllerTest {
         Mockito.when(service.findAll()).thenReturn(productTypeResponseList);
 
         //when
-        ResultActions result = mockMvc.perform(get("/api/product-type"))
+        ResultActions result = mockMvc.perform(get("/api/product-type")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token))
 
                 //then
                 .andExpect(status().isOk())
@@ -98,13 +102,14 @@ public class ProductTypeControllerTest {
         //given
         Long userId = 1L;
         ProductTypeResponse expected = productTypeResponse;
-        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","ADMIN"));
-        when(service.createProductType(eq(userId),any(ProductTypeRequest.class))).thenReturn(expected);
+
+        when(service.createProductType(any(ProductTypeRequest.class),eq(token))).thenReturn(expected);
 
         //when
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/{userId}", userId)
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productType)));
+                .content(objectMapper.writeValueAsString(productTypeRequest)));
 
         //then
         result.andExpect(status().isCreated())
@@ -113,28 +118,14 @@ public class ProductTypeControllerTest {
     }
 
     @Test
-    void addProductById_userNotAdmin_returnException() throws Exception {
-        Long userId = 3L;
-        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","DEFAULT_USER"));
-        when(service.createProductType(eq(userId),any(ProductTypeRequest.class))).thenThrow(new IllegalArgumentException("Forbidden access, only admin"));
-
-        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/" + userId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(productTypeRequest))
-        );
-
-        result.andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message").value("Forbidden access, only admin"));
-    }
-
-    @Test
     void addProductById_createProductTypeWithEmptyName_returnException() throws Exception{
         //given
         Long userId = 1L;
         productTypeRequest.setName("");
-        when(userClient.getUserById(userId)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","DEFAULT_USER"));
+        when(userClient.getUserById(userId,token)).thenReturn(new UserResponse(userId, "Gabriel","gabriel@gmail.com","DEFAULT_USER"));
         //when
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/product-type/" + userId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productTypeRequest)));
 
@@ -154,6 +145,7 @@ public class ProductTypeControllerTest {
 
         //when
         ResultActions result = mockMvc.perform(put("/api/product-type/{id}",idProduct)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productTypeRequest)));
 
@@ -169,7 +161,8 @@ public class ProductTypeControllerTest {
         Long idProduct = 1L;
 
         //when
-        ResultActions result = mockMvc.perform(delete("/api/product-type/{id}", idProduct));
+        ResultActions result = mockMvc.perform(delete("/api/product-type/{id}", idProduct)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token));
 
         //then
         result.andExpect(status().isNoContent());
